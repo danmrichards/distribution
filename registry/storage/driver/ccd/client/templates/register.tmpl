@@ -1,0 +1,11 @@
+// RegisterHandlers registers the api handlers.
+func RegisterHandlers(router *mux.Router, si ServerInterface) {
+{{if .}}
+    wrapper := ServerInterfaceWrapper{
+        Handler: si,
+    }
+{{end}}
+
+{{range .}}router.Methods(http.Method{{.Method | lower | title }}).Path("{{.Path | swaggerUriToEchoUri}}").HandlerFunc(wrapper.{{.OperationId}})
+{{end}}
+}

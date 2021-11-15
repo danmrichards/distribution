@@ -1,0 +1,4518 @@
+openapi: 3.0.0
+info:
+  description: "<p>Cloud Content Delivery is a managed cloud service that hosts and delivers content to end users worldwide.</p> <p>You are currently viewing the documentation for the <b>Management API</b>, intended to be used by developers at build time for managing content. Refer to the <a href=\"https://content-api.cloud.unity3d.com/doc_client/\">Content Delivery Client API</a> for documentation about the API intended to be used at runtime by your game client.</p> <p>For details about the concept of buckets, entries, releases, and badges please refer to the <a href=\"https://docs.unity.com/ccd/Content/UnityCCD.htm#CCD_organization\">CCD Organization </a>documentation.</p> <h2>Client SDK</h2> <p>The Content Delivery Management API is based on Swagger. The <a href=\"https://swagger.io/tools/swagger-codegen/\">Swagger Code Generator</a> can generate client libraries to integrate with your projects.</p> <p>A <a href=\"https://content-api.cloud.unity3d.com/doc/doc.json\">JSON schema</a> is required to generate a client for this API version.</p> <h2>Workflow for Uploading Content to a Bucket</h2> <p>If a user wants to upload content to a Bucket, they need to first create a new entry for that bucket and using that Bucket ID and Entry ID they can upload the content(file). </p> <img src=\"data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPCEtLSBEbyBub3QgZWRpdCB0aGlzIGZpbGUgd2l0aCBlZGl0b3JzIG90aGVyIHRoYW4gZGlhZ3JhbXMubmV0IC0tPgo8IURPQ1RZUEUgc3ZnIFBVQkxJQyAiLS8vVzNDLy9EVEQgU1ZHIDEuMS8vRU4iICJodHRwOi8vd3d3LnczLm9yZy9HcmFwaGljcy9TVkcvMS4xL0RURC9zdmcxMS5kdGQiPgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHZlcnNpb249IjEuMSIgd2lkdGg9IjIwNnB4IiBoZWlnaHQ9IjM1MXB4IiB2aWV3Qm94PSItMC41IC0wLjUgMjA2IDM1MSIgY29udGVudD0iJmx0O214ZmlsZSBob3N0PSZxdW90O2FwcC5kaWFncmFtcy5uZXQmcXVvdDsgbW9kaWZpZWQ9JnF1b3Q7MjAyMS0xMC0xMVQyMjoxODoxOS4zOTFaJnF1b3Q7IGFnZW50PSZxdW90OzUuMCAoTWFjaW50b3NoOyBJbnRlbCBNYWMgT1MgWCAxMF8xNV83KSBBcHBsZVdlYktpdC81MzcuMzYgKEtIVE1MLCBsaWtlIEdlY2tvKSBDaHJvbWUvOTMuMC40NTc3LjYzIFNhZmFyaS81MzcuMzYmcXVvdDsgZXRhZz0mcXVvdDs1STEyRUJzaDdscHpya1NrVTZmNCZxdW90OyB2ZXJzaW9uPSZxdW90OzE1LjUuMCZxdW90OyB0eXBlPSZxdW90O2dvb2dsZSZxdW90OyZndDsmbHQ7ZGlhZ3JhbSBpZD0mcXVvdDtDNVJCczQzb0RhLUtkelplTnR1eSZxdW90OyBuYW1lPSZxdW90O1BhZ2UtMSZxdW90OyZndDt4VmRiVytNZ0VQMDFlZFF2bDk1OHRHblhkWFd2MWEzNlJoT2E4RWxEbDFEYitPdDNDTkRjZXJQV3p3Y3JIR0NBTTJlR2llWDVzOVVWUi9QNE93c3h0Vnc3WEZuZXdITGRDOWVEWHdsa0NtaTFYQVZFbklRS2NncGdSRjZ4Qm0yTkxraUkwOHBFd1JnVlpGNEZBNVlrT0JBVkRISE9sdFZwVTBhcnU4NVJoQnZBS0VDMGlZNUpLR0tGOXR4dWdYL0ZKSXJOems3blFvM01rSm1zYjVMR0tHVExFdVFOTGMvbmpBblZtcTE4VENWM2hwZnhkVGFtdDgrZHEyKy8wMy9vdm45ejkrUHZtVEwyNVMxTDFsZmdPQkduTmEyZCs0TG9RdlBsYzR3RWx1UW44QU1iOHN4eU8yZzJ0N3grTWtubFAwMkh5QXpIbkMyU0VNdDlIQmhleGtUZzBSd0ZjblFKb2dJc0ZqT3FoNmNzRVZvbURuRFlqeWhLcFk5dGFLZUNzK2UxbitUc05lbjJldU85UEdpK1hqQVhlRlZTZ2VibENyTVp6cTlsbTlHT2RuRlc2eThMeFRnOWpjVWx0Wmg1U0lzMFdwc3VIQUVON1l2TmZsbXU3cWQrLzJsOHN4Z21kMzhldkovako3ckJML2R6eWxBb295ZkdLbHlFWk9Ha3J0bkMyNkdVSDh5djUzNDJ2OTBHdnczbWNCSmV5dndEdlVCS2xBUlZzZ3BtcFRSeENGbEhMMlpjeEN4aUNhTERBdTNqRlJFUGN2WjVXL2NldFNYWkhxeU1JZG5KVEVlR1gybVI3RDZXeDRwbGVjK3NVNWVSWnpyQ2pjQUNXL0FBNzA4YkF2RUlpMzB5YnNxQ1k0b0VlYWtlYnBPUDlkSmZqRWlwR3psNU5UbTVyWnBNMVBuMXFuSktyQmxxN1RPa0x0Z3dsRXR1ZlovalZlajBHakxzTDRKbkxJOTREVDA0RGJqU0hxb2tuRU4xa1lLTGI5RUVudXlLTmhFbFVTS0ZDKzdHSEFBWjB3UWV4VXM5TUNOaG1LdVM0NVM4b2tsdVR5cG5MdSthMzc3ZHQ5cURYVWxCdjloNmNmRk9sbFcyUGZpMkpvc3orOXp1OWZRamZLeFN6QlEybmFiNFkzeDM4UWtwNUhQU1FUbk10NmVEazRlNTI2NUdaKzlFVWU1NGgwVTV1QTVscFdrNk5BNCtyK1BhTzgrMVp6NDAxQWxPS2xzVHBOdFN6bzc4VWs4VlIrV2IzYWxqVCtteEl4RGZvYjUzRlJMR2NLTlNJMGtFc0cvS05Qam9rZHZEMzBUVFhXTWE3aTJxcEtwaTJHZVVBYU9EaENXU3Z5bWh0QVlkVHY2bThxK2FnejZzQW14MUlXVlZhc0JtQ2VqYTdXWUoySDE3Q1FqZDRxdE1CVTd4YWVzTi93TT0mbHQ7L2RpYWdyYW0mZ3Q7Jmx0Oy9teGZpbGUmZ3Q7Ij48ZGVmcy8+PGc+PHJlY3QgeD0iMTMiIHk9IjEzMCIgd2lkdGg9IjE4MCIgaGVpZ2h0PSI2MCIgcng9IjkiIHJ5PSI5IiBmaWxsPSIjZmZmZmZmIiBzdHJva2U9IiMwMDAwMDAiIHBvaW50ZXItZXZlbnRzPSJhbGwiLz48ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgtMC41IC0wLjUpIj48c3dpdGNoPjxmb3JlaWduT2JqZWN0IHBvaW50ZXItZXZlbnRzPSJub25lIiB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiByZXF1aXJlZEZlYXR1cmVzPSJodHRwOi8vd3d3LnczLm9yZy9UUi9TVkcxMS9mZWF0dXJlI0V4dGVuc2liaWxpdHkiIHN0eWxlPSJvdmVyZmxvdzogdmlzaWJsZTsgdGV4dC1hbGlnbjogbGVmdDsiPjxkaXYgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGh0bWwiIHN0eWxlPSJkaXNwbGF5OiBmbGV4OyBhbGlnbi1pdGVtczogdW5zYWZlIGNlbnRlcjsganVzdGlmeS1jb250ZW50OiB1bnNhZmUgY2VudGVyOyB3aWR0aDogMTc4cHg7IGhlaWdodDogMXB4OyBwYWRkaW5nLXRvcDogMTYwcHg7IG1hcmdpbi1sZWZ0OiAxNHB4OyI+PGRpdiBzdHlsZT0iYm94LXNpemluZzogYm9yZGVyLWJveDsgZm9udC1zaXplOiAwcHg7IHRleHQtYWxpZ246IGNlbnRlcjsiPjxkaXYgc3R5bGU9ImRpc3BsYXk6IGlubGluZS1ibG9jazsgZm9udC1zaXplOiAxMnB4OyBmb250LWZhbWlseTogSGVsdmV0aWNhOyBjb2xvcjogcmdiKDAsIDAsIDApOyBsaW5lLWhlaWdodDogMS4yOyBwb2ludGVyLWV2ZW50czogYWxsOyB3aGl0ZS1zcGFjZTogbm9ybWFsOyBvdmVyZmxvdy13cmFwOiBub3JtYWw7Ij5DcmVhdGUgYW4gZW50cnnCoDwvZGl2PjwvZGl2PjwvZGl2PjwvZm9yZWlnbk9iamVjdD48dGV4dCB4PSIxMDMiIHk9IjE2NCIgZmlsbD0iIzAwMDAwMCIgZm9udC1mYW1pbHk9IkhlbHZldGljYSIgZm9udC1zaXplPSIxMnB4IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj5DcmVhdGUgYW4gZW50cnnCoDwvdGV4dD48L3N3aXRjaD48L2c+PHJlY3QgeD0iMTMiIHk9IjI5MCIgd2lkdGg9IjE4MCIgaGVpZ2h0PSI2MCIgcng9IjkiIHJ5PSI5IiBmaWxsPSIjZmZmZmZmIiBzdHJva2U9IiMwMDAwMDAiIHBvaW50ZXItZXZlbnRzPSJhbGwiLz48ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgtMC41IC0wLjUpIj48c3dpdGNoPjxmb3JlaWduT2JqZWN0IHBvaW50ZXItZXZlbnRzPSJub25lIiB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiByZXF1aXJlZEZlYXR1cmVzPSJodHRwOi8vd3d3LnczLm9yZy9UUi9TVkcxMS9mZWF0dXJlI0V4dGVuc2liaWxpdHkiIHN0eWxlPSJvdmVyZmxvdzogdmlzaWJsZTsgdGV4dC1hbGlnbjogbGVmdDsiPjxkaXYgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGh0bWwiIHN0eWxlPSJkaXNwbGF5OiBmbGV4OyBhbGlnbi1pdGVtczogdW5zYWZlIGNlbnRlcjsganVzdGlmeS1jb250ZW50OiB1bnNhZmUgY2VudGVyOyB3aWR0aDogMTc4cHg7IGhlaWdodDogMXB4OyBwYWRkaW5nLXRvcDogMzIwcHg7IG1hcmdpbi1sZWZ0OiAxNHB4OyI+PGRpdiBzdHlsZT0iYm94LXNpemluZzogYm9yZGVyLWJveDsgZm9udC1zaXplOiAwcHg7IHRleHQtYWxpZ246IGNlbnRlcjsiPjxkaXYgc3R5bGU9ImRpc3BsYXk6IGlubGluZS1ibG9jazsgZm9udC1zaXplOiAxMnB4OyBmb250LWZhbWlseTogSGVsdmV0aWNhOyBjb2xvcjogcmdiKDAsIDAsIDApOyBsaW5lLWhlaWdodDogMS4yOyBwb2ludGVyLWV2ZW50czogYWxsOyB3aGl0ZS1zcGFjZTogbm9ybWFsOyBvdmVyZmxvdy13cmFwOiBub3JtYWw7Ij5VcGxvYWQgdGhlIGNvbnRlbnTCoDwvZGl2PjwvZGl2PjwvZGl2PjwvZm9yZWlnbk9iamVjdD48dGV4dCB4PSIxMDMiIHk9IjMyNCIgZmlsbD0iIzAwMDAwMCIgZm9udC1mYW1pbHk9IkhlbHZldGljYSIgZm9udC1zaXplPSIxMnB4IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj5VcGxvYWQgdGhlIGNvbnRlbnTCoDwvdGV4dD48L3N3aXRjaD48L2c+PHBhdGggZD0iTSAxMDMgMTkwIEwgMTAzIDI4My42MyIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjMDAwMDAwIiBzdHJva2UtbWl0ZXJsaW1pdD0iMTAiIHBvaW50ZXItZXZlbnRzPSJzdHJva2UiLz48cGF0aCBkPSJNIDEwMyAyODguODggTCA5OS41IDI4MS44OCBMIDEwMyAyODMuNjMgTCAxMDYuNSAyODEuODggWiIgZmlsbD0iIzAwMDAwMCIgc3Ryb2tlPSIjMDAwMDAwIiBzdHJva2UtbWl0ZXJsaW1pdD0iMTAiIHBvaW50ZXItZXZlbnRzPSJhbGwiLz48ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgtMC41IC0wLjUpIj48c3dpdGNoPjxmb3JlaWduT2JqZWN0IHBvaW50ZXItZXZlbnRzPSJub25lIiB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiByZXF1aXJlZEZlYXR1cmVzPSJodHRwOi8vd3d3LnczLm9yZy9UUi9TVkcxMS9mZWF0dXJlI0V4dGVuc2liaWxpdHkiIHN0eWxlPSJvdmVyZmxvdzogdmlzaWJsZTsgdGV4dC1hbGlnbjogbGVmdDsiPjxkaXYgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGh0bWwiIHN0eWxlPSJkaXNwbGF5OiBmbGV4OyBhbGlnbi1pdGVtczogdW5zYWZlIGNlbnRlcjsganVzdGlmeS1jb250ZW50OiB1bnNhZmUgY2VudGVyOyB3aWR0aDogMXB4OyBoZWlnaHQ6IDFweDsgcGFkZGluZy10b3A6IDIzN3B4OyBtYXJnaW4tbGVmdDogMTA0cHg7Ij48ZGl2IHN0eWxlPSJib3gtc2l6aW5nOiBib3JkZXItYm94OyBmb250LXNpemU6IDBweDsgdGV4dC1hbGlnbjogY2VudGVyOyI+PGRpdiBzdHlsZT0iZGlzcGxheTogaW5saW5lLWJsb2NrOyBmb250LXNpemU6IDExcHg7IGZvbnQtZmFtaWx5OiBIZWx2ZXRpY2E7IGNvbG9yOiByZ2IoMCwgMCwgMCk7IGxpbmUtaGVpZ2h0OiAxLjI7IHBvaW50ZXItZXZlbnRzOiBhbGw7IGJhY2tncm91bmQtY29sb3I6IHJnYigyNTUsIDI1NSwgMjU1KTsgd2hpdGUtc3BhY2U6IG5vd3JhcDsiPkJ1Y2tldCBJRCArIEVudHJ5IElEPC9kaXY+PC9kaXY+PC9kaXY+PC9mb3JlaWduT2JqZWN0Pjx0ZXh0IHg9IjEwNCIgeT0iMjQwIiBmaWxsPSIjMDAwMDAwIiBmb250LWZhbWlseT0iSGVsdmV0aWNhIiBmb250LXNpemU9IjExcHgiIHRleHQtYW5jaG9yPSJtaWRkbGUiPkJ1Y2tldCBJRCArIEVudHJ5IElEPC90ZXh0Pjwvc3dpdGNoPjwvZz48cGF0aCBkPSJNIDEwMyA1MCBMIDEwMyA5MCBMIDEwMyAxMjMuNjMiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzAwMDAwMCIgc3Ryb2tlLW1pdGVybGltaXQ9IjEwIiBwb2ludGVyLWV2ZW50cz0ic3Ryb2tlIi8+PHBhdGggZD0iTSAxMDMgMTI4Ljg4IEwgOTkuNSAxMjEuODggTCAxMDMgMTIzLjYzIEwgMTA2LjUgMTIxLjg4IFoiIGZpbGw9IiMwMDAwMDAiIHN0cm9rZT0iIzAwMDAwMCIgc3Ryb2tlLW1pdGVybGltaXQ9IjEwIiBwb2ludGVyLWV2ZW50cz0iYWxsIi8+PGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoLTAuNSAtMC41KSI+PHN3aXRjaD48Zm9yZWlnbk9iamVjdCBwb2ludGVyLWV2ZW50cz0ibm9uZSIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgcmVxdWlyZWRGZWF0dXJlcz0iaHR0cDovL3d3dy53My5vcmcvVFIvU1ZHMTEvZmVhdHVyZSNFeHRlbnNpYmlsaXR5IiBzdHlsZT0ib3ZlcmZsb3c6IHZpc2libGU7IHRleHQtYWxpZ246IGxlZnQ7Ij48ZGl2IHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hodG1sIiBzdHlsZT0iZGlzcGxheTogZmxleDsgYWxpZ24taXRlbXM6IHVuc2FmZSBjZW50ZXI7IGp1c3RpZnktY29udGVudDogdW5zYWZlIGNlbnRlcjsgd2lkdGg6IDFweDsgaGVpZ2h0OiAxcHg7IHBhZGRpbmctdG9wOiA5MXB4OyBtYXJnaW4tbGVmdDogMTA0cHg7Ij48ZGl2IHN0eWxlPSJib3gtc2l6aW5nOiBib3JkZXItYm94OyBmb250LXNpemU6IDBweDsgdGV4dC1hbGlnbjogY2VudGVyOyI+PGRpdiBzdHlsZT0iZGlzcGxheTogaW5saW5lLWJsb2NrOyBmb250LXNpemU6IDExcHg7IGZvbnQtZmFtaWx5OiBIZWx2ZXRpY2E7IGNvbG9yOiByZ2IoMCwgMCwgMCk7IGxpbmUtaGVpZ2h0OiAxLjI7IHBvaW50ZXItZXZlbnRzOiBhbGw7IGJhY2tncm91bmQtY29sb3I6IHJnYigyNTUsIDI1NSwgMjU1KTsgd2hpdGUtc3BhY2U6IG5vd3JhcDsiPkJ1Y2tldCBJRDwvZGl2PjwvZGl2PjwvZGl2PjwvZm9yZWlnbk9iamVjdD48dGV4dCB4PSIxMDQiIHk9Ijk0IiBmaWxsPSIjMDAwMDAwIiBmb250LWZhbWlseT0iSGVsdmV0aWNhIiBmb250LXNpemU9IjExcHgiIHRleHQtYW5jaG9yPSJtaWRkbGUiPkJ1Y2tldCBJRDwvdGV4dD48L3N3aXRjaD48L2c+PHJlY3QgeD0iMC41IiB5PSIwIiB3aWR0aD0iMjA1IiBoZWlnaHQ9IjcwIiBmaWxsPSJub25lIiBzdHJva2U9Im5vbmUiIHBvaW50ZXItZXZlbnRzPSJhbGwiLz48ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgtMC41IC0wLjUpIj48c3dpdGNoPjxmb3JlaWduT2JqZWN0IHBvaW50ZXItZXZlbnRzPSJub25lIiB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiByZXF1aXJlZEZlYXR1cmVzPSJodHRwOi8vd3d3LnczLm9yZy9UUi9TVkcxMS9mZWF0dXJlI0V4dGVuc2liaWxpdHkiIHN0eWxlPSJvdmVyZmxvdzogdmlzaWJsZTsgdGV4dC1hbGlnbjogbGVmdDsiPjxkaXYgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGh0bWwiIHN0eWxlPSJkaXNwbGF5OiBmbGV4OyBhbGlnbi1pdGVtczogdW5zYWZlIGNlbnRlcjsganVzdGlmeS1jb250ZW50OiB1bnNhZmUgY2VudGVyOyB3aWR0aDogMjAzcHg7IGhlaWdodDogMXB4OyBwYWRkaW5nLXRvcDogMzVweDsgbWFyZ2luLWxlZnQ6IDJweDsiPjxkaXYgc3R5bGU9ImJveC1zaXppbmc6IGJvcmRlci1ib3g7IGZvbnQtc2l6ZTogMHB4OyB0ZXh0LWFsaWduOiBjZW50ZXI7Ij48ZGl2IHN0eWxlPSJkaXNwbGF5OiBpbmxpbmUtYmxvY2s7IGZvbnQtc2l6ZTogMTJweDsgZm9udC1mYW1pbHk6IEhlbHZldGljYTsgY29sb3I6IHJnYigwLCAwLCAwKTsgbGluZS1oZWlnaHQ6IDEuMjsgcG9pbnRlci1ldmVudHM6IGFsbDsgd2hpdGUtc3BhY2U6IG5vcm1hbDsgb3ZlcmZsb3ctd3JhcDogbm9ybWFsOyI+VXBsb2FkaW5nIENvbnRlbnQgdG8gYSBidWNrZXQ8L2Rpdj48L2Rpdj48L2Rpdj48L2ZvcmVpZ25PYmplY3Q+PHRleHQgeD0iMTAzIiB5PSIzOSIgZmlsbD0iIzAwMDAwMCIgZm9udC1mYW1pbHk9IkhlbHZldGljYSIgZm9udC1zaXplPSIxMnB4IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj5VcGxvYWRpbmcgQ29udGVudCB0byBhIGJ1Y2tldDwvdGV4dD48L3N3aXRjaD48L2c+PC9nPjxzd2l0Y2g+PGcgcmVxdWlyZWRGZWF0dXJlcz0iaHR0cDovL3d3dy53My5vcmcvVFIvU1ZHMTEvZmVhdHVyZSNFeHRlbnNpYmlsaXR5Ii8+PGEgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMCwtNSkiIHhsaW5rOmhyZWY9Imh0dHBzOi8vd3d3LmRpYWdyYW1zLm5ldC9kb2MvZmFxL3N2Zy1leHBvcnQtdGV4dC1wcm9ibGVtcyIgdGFyZ2V0PSJfYmxhbmsiPjx0ZXh0IHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtc2l6ZT0iMTBweCIgeD0iNTAlIiB5PSIxMDAlIj5WaWV3ZXIgZG9lcyBub3Qgc3VwcG9ydCBmdWxsIFNWRyAxLjE8L3RleHQ+PC9hPjwvc3dpdGNoPjwvc3ZnPg==\"/> <p> If a user wants to upload new content for an existing file path, they first Update the Entry for the file then upload the content. </p> <img src=\"data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPCEtLSBEbyBub3QgZWRpdCB0aGlzIGZpbGUgd2l0aCBlZGl0b3JzIG90aGVyIHRoYW4gZGlhZ3JhbXMubmV0IC0tPgo8IURPQ1RZUEUgc3ZnIFBVQkxJQyAiLS8vVzNDLy9EVEQgU1ZHIDEuMS8vRU4iICJodHRwOi8vd3d3LnczLm9yZy9HcmFwaGljcy9TVkcvMS4xL0RURC9zdmcxMS5kdGQiPgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHZlcnNpb249IjEuMSIgd2lkdGg9IjIwNnB4IiBoZWlnaHQ9IjM1MXB4IiB2aWV3Qm94PSItMC41IC0wLjUgMjA2IDM1MSIgY29udGVudD0iJmx0O214ZmlsZSBob3N0PSZxdW90O2FwcC5kaWFncmFtcy5uZXQmcXVvdDsgbW9kaWZpZWQ9JnF1b3Q7MjAyMS0xMC0xNFQwNDoyMDo1OC42MjhaJnF1b3Q7IGFnZW50PSZxdW90OzUuMCAoTWFjaW50b3NoOyBJbnRlbCBNYWMgT1MgWCAxMF8xNV83KSBBcHBsZVdlYktpdC81MzcuMzYgKEtIVE1MLCBsaWtlIEdlY2tvKSBDaHJvbWUvOTMuMC40NTc3LjYzIFNhZmFyaS81MzcuMzYmcXVvdDsgZXRhZz0mcXVvdDtYbDlERmE4Ry15TUtKOUVwSUp3TCZxdW90OyB2ZXJzaW9uPSZxdW90OzE1LjUuMCZxdW90OyB0eXBlPSZxdW90O2dvb2dsZSZxdW90OyZndDsmbHQ7ZGlhZ3JhbSBpZD0mcXVvdDtDNVJCczQzb0RhLUtkelplTnR1eSZxdW90OyBuYW1lPSZxdW90O1BhZ2UtMSZxdW90OyZndDt4VmRiVitNZ0VQNDFlZFNUUzYrUHB1MjZydTYxdWxYZk1LRUpSd0paUWszaXIxOElwTG4xWnEzSGx4NzRnQ256elRmRHhIQW1VWGJKUUJ4K3B6N0VobTM2bWVGTURkc2UyNDc0bFVDdWdONTRySUNBSVY5QlZnWE0wU3ZVb0tuUkZmSmgwdGpJS2NVY3hVM1FvNFJBanpjd3dCaE5tOXVXRkRmL05RWUI3QUJ6RCtBdXVrQStEeFU2c29jVi9oV2lJQ3ovMlJwby95SlFidGFlSkNId2FWcURuSm5oVEJpbFhJMmliQUt4NUs3a1pYR1ZML0ROOCtEeTIrL2tIN2h6cjI5Ly9EMVR4cjY4NWNqYUJRWUpQNjFwSGR3WGdGZWFyN3ZZQnh4SzhvbjRtUkhPY3UwK3owdE9HVjBSSDBxN2x1RzRhWWc0bk1mQWs2dXBFSkhBUWg1aHZieWtoR3RaV0lJek44QWdrVEUxeFRqaGpENnY0eUozcjBtV3l3ZjZyZmw1Z1l6RHJCWjF6Y01scEJFczNEREwxWUVPYWQ2YXA1VkNySkhHd3BvNnluMUFpekpZbTY2SUZ3UE4vZVk0cE5uZGN1SStMcTVYTTNMNzU5NzV1WGpFRytPQUtmQmx0b1JRcFFlWExOZ0RFRW1DeVZNU3J4azZOalJiZUR1VThvUDVkZXpQNW5mWTRiZkRIQ1QraGF3M1l1WkppU0t2U1ZiRnJKUW05RVdWMFljcDR5RU5LQUY0VnFFdXpCQy9sN3ZQKzNyMm9DM0o4VFFyRGNsSlhrNWt1dFVPeWVsRGZhMDZWc3pLYzhvWmVhY2p3aWhZb0N2bXdmMWxnZ01XUUw1UHhsMVpNSWdCUnkvTnkyMktzVDc2aXlJcDlWSk9Ua3RPZHE4bEUzVi9mYXBlQWx1R2V2c01LUWM3aGdySnJmMDVYb1hXcUNORGQrVTlRM25GS3pFVHQzR3JvbHRBYlpHS0VOK0FKL0ZFTjdRSk1BcUlGSzRJTjJRQ2tEbU54Q040b1JjaTVQdUZLaGxNMEN0NEt1eEo1Y1RTMThMN3ZtdjBwN3VLZ242aDllSHFYYXlyYkh2eWJTMFdaK2E1T1JycFIvZFlwWlJiNkhLWndJK0ozZmdUU3NqbmxJTjZtbTh2QnlkUGM3dmZ6TTdSaWJMY2NnN0xjaEU2a05lMjZkUTQrTDZXYmU2ODE1NzlZcUJ1Y0ZMWmxrbDZtcExUcmg1SGxhRGQxV1JQTjdJak45OGh5SGYxRnFYaFR2T0dTQ0JnQXRONi95YStmc3JtV2p6OUNWZWJsZ2pEd2xQUkhyVURJT2pnVGE1VjJ6eWhtQXFpcDRRU1Nhc3dnVnZRNFRIWjFDZzJxOVdIOVlxOW9TaHVqVzZ4Mnl6YVpyL2JMQTdmM2l5S2FmVzlwbEtzK3VoMVp2OEImbHQ7L2RpYWdyYW0mZ3Q7Jmx0Oy9teGZpbGUmZ3Q7Ij48ZGVmcy8+PGc+PHJlY3QgeD0iMTMiIHk9IjEzMCIgd2lkdGg9IjE4MCIgaGVpZ2h0PSI2MCIgcng9IjkiIHJ5PSI5IiBmaWxsPSIjZmZmZmZmIiBzdHJva2U9IiMwMDAwMDAiIHBvaW50ZXItZXZlbnRzPSJhbGwiLz48ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgtMC41IC0wLjUpIj48c3dpdGNoPjxmb3JlaWduT2JqZWN0IHBvaW50ZXItZXZlbnRzPSJub25lIiB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiByZXF1aXJlZEZlYXR1cmVzPSJodHRwOi8vd3d3LnczLm9yZy9UUi9TVkcxMS9mZWF0dXJlI0V4dGVuc2liaWxpdHkiIHN0eWxlPSJvdmVyZmxvdzogdmlzaWJsZTsgdGV4dC1hbGlnbjogbGVmdDsiPjxkaXYgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGh0bWwiIHN0eWxlPSJkaXNwbGF5OiBmbGV4OyBhbGlnbi1pdGVtczogdW5zYWZlIGNlbnRlcjsganVzdGlmeS1jb250ZW50OiB1bnNhZmUgY2VudGVyOyB3aWR0aDogMTc4cHg7IGhlaWdodDogMXB4OyBwYWRkaW5nLXRvcDogMTYwcHg7IG1hcmdpbi1sZWZ0OiAxNHB4OyI+PGRpdiBzdHlsZT0iYm94LXNpemluZzogYm9yZGVyLWJveDsgZm9udC1zaXplOiAwcHg7IHRleHQtYWxpZ246IGNlbnRlcjsiPjxkaXYgc3R5bGU9ImRpc3BsYXk6IGlubGluZS1ibG9jazsgZm9udC1zaXplOiAxMnB4OyBmb250LWZhbWlseTogSGVsdmV0aWNhOyBjb2xvcjogcmdiKDAsIDAsIDApOyBsaW5lLWhlaWdodDogMS4yOyBwb2ludGVyLWV2ZW50czogYWxsOyB3aGl0ZS1zcGFjZTogbm9ybWFsOyBvdmVyZmxvdy13cmFwOiBub3JtYWw7Ij5VcGRhdGUgYW4gRW50cnk8L2Rpdj48L2Rpdj48L2Rpdj48L2ZvcmVpZ25PYmplY3Q+PHRleHQgeD0iMTAzIiB5PSIxNjQiIGZpbGw9IiMwMDAwMDAiIGZvbnQtZmFtaWx5PSJIZWx2ZXRpY2EiIGZvbnQtc2l6ZT0iMTJweCIgdGV4dC1hbmNob3I9Im1pZGRsZSI+VXBkYXRlIGFuIEVudHJ5PC90ZXh0Pjwvc3dpdGNoPjwvZz48cmVjdCB4PSIxMyIgeT0iMjkwIiB3aWR0aD0iMTgwIiBoZWlnaHQ9IjYwIiByeD0iOSIgcnk9IjkiIGZpbGw9IiNmZmZmZmYiIHN0cm9rZT0iIzAwMDAwMCIgcG9pbnRlci1ldmVudHM9ImFsbCIvPjxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKC0wLjUgLTAuNSkiPjxzd2l0Y2g+PGZvcmVpZ25PYmplY3QgcG9pbnRlci1ldmVudHM9Im5vbmUiIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIHJlcXVpcmVkRmVhdHVyZXM9Imh0dHA6Ly93d3cudzMub3JnL1RSL1NWRzExL2ZlYXR1cmUjRXh0ZW5zaWJpbGl0eSIgc3R5bGU9Im92ZXJmbG93OiB2aXNpYmxlOyB0ZXh0LWFsaWduOiBsZWZ0OyI+PGRpdiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94aHRtbCIgc3R5bGU9ImRpc3BsYXk6IGZsZXg7IGFsaWduLWl0ZW1zOiB1bnNhZmUgY2VudGVyOyBqdXN0aWZ5LWNvbnRlbnQ6IHVuc2FmZSBjZW50ZXI7IHdpZHRoOiAxNzhweDsgaGVpZ2h0OiAxcHg7IHBhZGRpbmctdG9wOiAzMjBweDsgbWFyZ2luLWxlZnQ6IDE0cHg7Ij48ZGl2IHN0eWxlPSJib3gtc2l6aW5nOiBib3JkZXItYm94OyBmb250LXNpemU6IDBweDsgdGV4dC1hbGlnbjogY2VudGVyOyI+PGRpdiBzdHlsZT0iZGlzcGxheTogaW5saW5lLWJsb2NrOyBmb250LXNpemU6IDEycHg7IGZvbnQtZmFtaWx5OiBIZWx2ZXRpY2E7IGNvbG9yOiByZ2IoMCwgMCwgMCk7IGxpbmUtaGVpZ2h0OiAxLjI7IHBvaW50ZXItZXZlbnRzOiBhbGw7IHdoaXRlLXNwYWNlOiBub3JtYWw7IG92ZXJmbG93LXdyYXA6IG5vcm1hbDsiPlVwbG9hZCB0aGUgY29udGVudMKgPC9kaXY+PC9kaXY+PC9kaXY+PC9mb3JlaWduT2JqZWN0Pjx0ZXh0IHg9IjEwMyIgeT0iMzI0IiBmaWxsPSIjMDAwMDAwIiBmb250LWZhbWlseT0iSGVsdmV0aWNhIiBmb250LXNpemU9IjEycHgiIHRleHQtYW5jaG9yPSJtaWRkbGUiPlVwbG9hZCB0aGUgY29udGVudMKgPC90ZXh0Pjwvc3dpdGNoPjwvZz48cGF0aCBkPSJNIDEwMyAxOTAgTCAxMDMgMjgzLjYzIiBmaWxsPSJub25lIiBzdHJva2U9IiMwMDAwMDAiIHN0cm9rZS1taXRlcmxpbWl0PSIxMCIgcG9pbnRlci1ldmVudHM9InN0cm9rZSIvPjxwYXRoIGQ9Ik0gMTAzIDI4OC44OCBMIDk5LjUgMjgxLjg4IEwgMTAzIDI4My42MyBMIDEwNi41IDI4MS44OCBaIiBmaWxsPSIjMDAwMDAwIiBzdHJva2U9IiMwMDAwMDAiIHN0cm9rZS1taXRlcmxpbWl0PSIxMCIgcG9pbnRlci1ldmVudHM9ImFsbCIvPjxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKC0wLjUgLTAuNSkiPjxzd2l0Y2g+PGZvcmVpZ25PYmplY3QgcG9pbnRlci1ldmVudHM9Im5vbmUiIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIHJlcXVpcmVkRmVhdHVyZXM9Imh0dHA6Ly93d3cudzMub3JnL1RSL1NWRzExL2ZlYXR1cmUjRXh0ZW5zaWJpbGl0eSIgc3R5bGU9Im92ZXJmbG93OiB2aXNpYmxlOyB0ZXh0LWFsaWduOiBsZWZ0OyI+PGRpdiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94aHRtbCIgc3R5bGU9ImRpc3BsYXk6IGZsZXg7IGFsaWduLWl0ZW1zOiB1bnNhZmUgY2VudGVyOyBqdXN0aWZ5LWNvbnRlbnQ6IHVuc2FmZSBjZW50ZXI7IHdpZHRoOiAxcHg7IGhlaWdodDogMXB4OyBwYWRkaW5nLXRvcDogMjM3cHg7IG1hcmdpbi1sZWZ0OiAxMDRweDsiPjxkaXYgc3R5bGU9ImJveC1zaXppbmc6IGJvcmRlci1ib3g7IGZvbnQtc2l6ZTogMHB4OyB0ZXh0LWFsaWduOiBjZW50ZXI7Ij48ZGl2IHN0eWxlPSJkaXNwbGF5OiBpbmxpbmUtYmxvY2s7IGZvbnQtc2l6ZTogMTFweDsgZm9udC1mYW1pbHk6IEhlbHZldGljYTsgY29sb3I6IHJnYigwLCAwLCAwKTsgbGluZS1oZWlnaHQ6IDEuMjsgcG9pbnRlci1ldmVudHM6IGFsbDsgYmFja2dyb3VuZC1jb2xvcjogcmdiKDI1NSwgMjU1LCAyNTUpOyB3aGl0ZS1zcGFjZTogbm93cmFwOyI+QnVja2V0IElEICsgRW50cnkgSUQ8L2Rpdj48L2Rpdj48L2Rpdj48L2ZvcmVpZ25PYmplY3Q+PHRleHQgeD0iMTA0IiB5PSIyNDAiIGZpbGw9IiMwMDAwMDAiIGZvbnQtZmFtaWx5PSJIZWx2ZXRpY2EiIGZvbnQtc2l6ZT0iMTFweCIgdGV4dC1hbmNob3I9Im1pZGRsZSI+QnVja2V0IElEICsgRW50cnkgSUQ8L3RleHQ+PC9zd2l0Y2g+PC9nPjxwYXRoIGQ9Ik0gMTAzIDUwIEwgMTAzIDkwIEwgMTAzIDEyMy42MyIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjMDAwMDAwIiBzdHJva2UtbWl0ZXJsaW1pdD0iMTAiIHBvaW50ZXItZXZlbnRzPSJzdHJva2UiLz48cGF0aCBkPSJNIDEwMyAxMjguODggTCA5OS41IDEyMS44OCBMIDEwMyAxMjMuNjMgTCAxMDYuNSAxMjEuODggWiIgZmlsbD0iIzAwMDAwMCIgc3Ryb2tlPSIjMDAwMDAwIiBzdHJva2UtbWl0ZXJsaW1pdD0iMTAiIHBvaW50ZXItZXZlbnRzPSJhbGwiLz48ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgtMC41IC0wLjUpIj48c3dpdGNoPjxmb3JlaWduT2JqZWN0IHBvaW50ZXItZXZlbnRzPSJub25lIiB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiByZXF1aXJlZEZlYXR1cmVzPSJodHRwOi8vd3d3LnczLm9yZy9UUi9TVkcxMS9mZWF0dXJlI0V4dGVuc2liaWxpdHkiIHN0eWxlPSJvdmVyZmxvdzogdmlzaWJsZTsgdGV4dC1hbGlnbjogbGVmdDsiPjxkaXYgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGh0bWwiIHN0eWxlPSJkaXNwbGF5OiBmbGV4OyBhbGlnbi1pdGVtczogdW5zYWZlIGNlbnRlcjsganVzdGlmeS1jb250ZW50OiB1bnNhZmUgY2VudGVyOyB3aWR0aDogMXB4OyBoZWlnaHQ6IDFweDsgcGFkZGluZy10b3A6IDkxcHg7IG1hcmdpbi1sZWZ0OiAxMDRweDsiPjxkaXYgc3R5bGU9ImJveC1zaXppbmc6IGJvcmRlci1ib3g7IGZvbnQtc2l6ZTogMHB4OyB0ZXh0LWFsaWduOiBjZW50ZXI7Ij48ZGl2IHN0eWxlPSJkaXNwbGF5OiBpbmxpbmUtYmxvY2s7IGZvbnQtc2l6ZTogMTFweDsgZm9udC1mYW1pbHk6IEhlbHZldGljYTsgY29sb3I6IHJnYigwLCAwLCAwKTsgbGluZS1oZWlnaHQ6IDEuMjsgcG9pbnRlci1ldmVudHM6IGFsbDsgYmFja2dyb3VuZC1jb2xvcjogcmdiKDI1NSwgMjU1LCAyNTUpOyB3aGl0ZS1zcGFjZTogbm93cmFwOyI+QnVja2V0IElEICsgRW50cnkgSUQ8L2Rpdj48L2Rpdj48L2Rpdj48L2ZvcmVpZ25PYmplY3Q+PHRleHQgeD0iMTA0IiB5PSI5NCIgZmlsbD0iIzAwMDAwMCIgZm9udC1mYW1pbHk9IkhlbHZldGljYSIgZm9udC1zaXplPSIxMXB4IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj5CdWNrZXQgSUQgKyBFbnRyeSBJRDwvdGV4dD48L3N3aXRjaD48L2c+PHJlY3QgeD0iMC41IiB5PSIwIiB3aWR0aD0iMjA1IiBoZWlnaHQ9IjcwIiBmaWxsPSJub25lIiBzdHJva2U9Im5vbmUiIHBvaW50ZXItZXZlbnRzPSJhbGwiLz48ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgtMC41IC0wLjUpIj48c3dpdGNoPjxmb3JlaWduT2JqZWN0IHBvaW50ZXItZXZlbnRzPSJub25lIiB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiByZXF1aXJlZEZlYXR1cmVzPSJodHRwOi8vd3d3LnczLm9yZy9UUi9TVkcxMS9mZWF0dXJlI0V4dGVuc2liaWxpdHkiIHN0eWxlPSJvdmVyZmxvdzogdmlzaWJsZTsgdGV4dC1hbGlnbjogbGVmdDsiPjxkaXYgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGh0bWwiIHN0eWxlPSJkaXNwbGF5OiBmbGV4OyBhbGlnbi1pdGVtczogdW5zYWZlIGNlbnRlcjsganVzdGlmeS1jb250ZW50OiB1bnNhZmUgY2VudGVyOyB3aWR0aDogMjAzcHg7IGhlaWdodDogMXB4OyBwYWRkaW5nLXRvcDogMzVweDsgbWFyZ2luLWxlZnQ6IDJweDsiPjxkaXYgc3R5bGU9ImJveC1zaXppbmc6IGJvcmRlci1ib3g7IGZvbnQtc2l6ZTogMHB4OyB0ZXh0LWFsaWduOiBjZW50ZXI7Ij48ZGl2IHN0eWxlPSJkaXNwbGF5OiBpbmxpbmUtYmxvY2s7IGZvbnQtc2l6ZTogMTJweDsgZm9udC1mYW1pbHk6IEhlbHZldGljYTsgY29sb3I6IHJnYigwLCAwLCAwKTsgbGluZS1oZWlnaHQ6IDEuMjsgcG9pbnRlci1ldmVudHM6IGFsbDsgd2hpdGUtc3BhY2U6IG5vcm1hbDsgb3ZlcmZsb3ctd3JhcDogbm9ybWFsOyI+VXBsb2FkaW5nIG5ldyBjb250ZW50IHRvIGFuIGV4aXN0aW5nIGZpbGUgcGF0aDwvZGl2PjwvZGl2PjwvZGl2PjwvZm9yZWlnbk9iamVjdD48dGV4dCB4PSIxMDMiIHk9IjM5IiBmaWxsPSIjMDAwMDAwIiBmb250LWZhbWlseT0iSGVsdmV0aWNhIiBmb250LXNpemU9IjEycHgiIHRleHQtYW5jaG9yPSJtaWRkbGUiPlVwbG9hZGluZyBuZXcgY29udGVudCB0byBhbiBleGlzdGkuLi48L3RleHQ+PC9zd2l0Y2g+PC9nPjwvZz48c3dpdGNoPjxnIHJlcXVpcmVkRmVhdHVyZXM9Imh0dHA6Ly93d3cudzMub3JnL1RSL1NWRzExL2ZlYXR1cmUjRXh0ZW5zaWJpbGl0eSIvPjxhIHRyYW5zZm9ybT0idHJhbnNsYXRlKDAsLTUpIiB4bGluazpocmVmPSJodHRwczovL3d3dy5kaWFncmFtcy5uZXQvZG9jL2ZhcS9zdmctZXhwb3J0LXRleHQtcHJvYmxlbXMiIHRhcmdldD0iX2JsYW5rIj48dGV4dCB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LXNpemU9IjEwcHgiIHg9IjUwJSIgeT0iMTAwJSI+Vmlld2VyIGRvZXMgbm90IHN1cHBvcnQgZnVsbCBTVkcgMS4xPC90ZXh0PjwvYT48L3N3aXRjaD48L3N2Zz4=\"/> <h2>CLI Sync</h2> <p>To implement syncing of a bucket to a local folder using the APIs please refer to <a href=\"/doc/cli-sync-api.html\">Sync to a local folder using API</a></p> <h2>Authentication</h2> <p>The Content Delivery Management API requires an API key associated with your Unity developer account. To access your API Key, please visit the <a href=\"https://developer.cloud.unity3d.com\">developer dashboard</a>.</p> <p>To authenticate requests, include a Basic Authentication header as a base64-encoded string 'username:password', using your API key as the password (and empty username).</p> <p>For example, an API key value of 'd6d2c026bac44b1ea7ac0332694a830e' would include an Authorization header like:</p> <p><b>Authorization: Basic OmQ2ZDJjMDI2YmFjNDRiMWVhN2FjMDMzMjY5NGE4MzBl</b></p> <h2>Pagination</h2> <p>Paged results take two parameters: the number of results to return per page (?per_page) and the page number based on that per page amount (?page). Page numbering starts with 1 and the default page size is 10.</p> <p>For instance, if there are 40 results and you specify page=2&per_page=10, you will receive records 11-20. Paged results will also return a Content-Range header. In the example above the content range header will look like this:</p> <p><b>Content-Range: items 11-20/40</b></p> <h2>Unity CCD Documentation</h2> <p>Please visit <a href= \"https://docs.unity.com/ccd/Content/UnityCCD.htm\"> CCD documentation</a> </p>"
+  title: Content Delivery Management API
+  contact: {}
+  license:
+    name: Proprietary license
+  version: 1.4.24
+paths:
+  "/api/v1/buckets/{bucketid}/":
+    get:
+      security:
+        - ApiKeyAuth: []
+      description: Gets the bucket details by ID.
+      tags:
+        - Buckets
+      summary: Get a bucket
+      operationId: GetBucket
+      parameters:
+        - description: Bucket ID
+          name: bucketid
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/bucket"
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/httperror"
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/httperror"
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/httperror"
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/httperror"
+      x-add-pipeline:
+        - ValidUser
+        - BucketUserRead
+    put:
+      security:
+        - ApiKeyAuth: []
+      description: Updates the bucket details by ID.
+      tags:
+        - Buckets
+      summary: Update a bucket
+      operationId: UpdateBucket
+      parameters:
+        - description: Bucket ID
+          name: bucketid
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/bucketUpdate"
+        description: Bucket
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/bucket"
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/httperror"
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/httperror"
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/httperror"
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/httperror"
+      x-add-pipeline:
+        - ValidUser
+        - BucketUserRead
+      x-permission:
+        action: write
+        resource: Project
+    delete:
+      security:
+        - ApiKeyAuth: []
+      description: Removes a bucket by ID. All files that are no longer referred to by another bucket in a project are removed.
+      tags:
+        - Buckets
+      summary: Delete a bucket
+      operationId: DeleteBucket
+      parameters:
+        - description: Bucket ID
+          name: bucketid
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "204":
+          description: No Content
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/nocontent"
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/httperror"
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/httperror"
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/httperror"
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/httperror"
+      x-add-pipeline:
+        - ValidUser
+        - BucketUserRead
+      x-permission:
+        action: write
+        resource: Project
+  "/api/v1/buckets/{bucketid}/accesstokens/":
+    get:
+      security:
+        - ApiKeyAuth: []
+      description: List bucket access tokens.
+      tags:
+        - BucketAccessTokens
+      summary: List bucket access tokens
+      operationId: ListBucketAccessTokens
+      parameters:
+        - description: Bucket ID
+          name: bucketid
+          in: path
+          required: true
+          schema:
+            type: string
+        - description: Current Page
+          name: page
+          in: query
+          schema:
+            type: integer
+        - description: Items Per Page
+          name: per_page
+          in: query
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+            default: 10
+      responses:
+        "200":
+          description: OK
+          headers:
+            Content-Range:
+              description: paging in the format - items [start]-[end]/[total]
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/bucketaccesstoken"
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/httperror"
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/httperror"
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/httperror"
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/httperror"
+      x-add-pipeline:
+        - ValidUser
+        - BucketUserRead
+      x-permission:
+        action: token
+        resource: Bucket
+    post:
+      security:
+        - ApiKeyAuth: []
+      description: Create bucket access token.
+      tags:
+        - BucketAccessTokens
+      summary: Create bucket access token
+      operationId: CreateBucketAccessToken
+      parameters:
+        - description: Bucket ID
+          name: bucketid
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/bucketaccesstokenCreate"
+        description: BucketAccessToken
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/bucketaccesstoken"
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/httperror"
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/httperror"
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/httperror"
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/httperror"
+      x-add-pipeline:
+        - ValidUser
+        - BucketUserRead
+      x-permission:
+        action: token
+        resource: Bucket
+  "/api/v1/buckets/{bucketid}/accesstokens/{tokenid}/":
+    get:
+      security:
+        - ApiKeyAuth: []
+      description: Get bucket access token info.
+      tags:
+        - BucketAccessTokens
+      summary: get bucket access token
+      operationId: GetBucketAccessToken
+      parameters:
+        - description: Bucket ID
+          name: bucketid
+          in: path
+          required: true
+          schema:
+            type: string
+        - description: Token ID
+          name: tokenid
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/bucketaccesstoken"
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/httperror"
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/httperror"
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/httperror"
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/httperror"
+      x-add-pipeline:
+        - ValidUser
+        - BucketUserRead
+      x-permission:
+        action: token
+        resource: Bucket
+    put:
+      security:
+        - ApiKeyAuth: []
+      description: Update bucket access token info.
+      tags:
+        - BucketAccessTokens
+      summary: Update bucket access token info
+      operationId: UpdateBucketAccessTokenInfo
+      parameters:
+        - description: Bucket ID
+          name: bucketid
+          in: path
+          required: true
+          schema:
+            type: string
+        - description: Token ID
+          name: tokenid
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/bucketaccesstokenUpdate"
+        description: BucketAccessToken
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/bucketaccesstoken"
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/httperror"
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/httperror"
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/httperror"
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/httperror"
+      x-add-pipeline:
+        - ValidUser
+        - BucketUserRead
+      x-permission:
+        action: token
+        resource: Bucket
+    delete:
+      security:
+        - ApiKeyAuth: []
+      description: Delete a bucket's access token by key.
+      tags:
+        - BucketAccessTokens
+      summary: Delete a bucket access token
+      operationId: DeleteBucketAccessToken
+      parameters:
+        - description: Bucket ID
+          name: bucketid
+          in: path
+          required: true
+          schema:
+            type: string
+        - description: Token ID
+          name: tokenid
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "204":
+          description: No Content
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/nocontent"
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/httperror"
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/httperror"
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/httperror"
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/httperror"
+      x-add-pipeline:
+        - ValidUser
+        - BucketUserRead
+      x-permission:
+        action: token
+        resource: Bucket
+  "/api/v1/buckets/{bucketid}/badges/":
+    get:
+      security:
+        - ApiKeyAuth: []
+      description: Gets all badges for a bucket.
+      tags:
+        - Badges
+      summary: Get badges
+      operationId: ListBadges
+      parameters:
+        - description: Bucket ID
+          name: bucketid
+          in: path
+          required: true
+          schema:
+            type: string
+        - description: Current Page
+          name: page
+          in: query
+          schema:
+            type: integer
+        - description: Items Per Page
+          name: per_page
+          in: query
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+            default: 10
+      responses:
+        "200":
+          description: OK
+          headers:
+            Content-Range:
+              description: paging in the format - items [start]-[end]/[total]
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/badge"
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/httperror"
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/httperror"
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/httperror"
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/httperror"
+      x-add-pipeline:
+        - ValidUser
+        - BucketUserRead
+    put:
+      security:
+        - ApiKeyAuth: []
+      description: Assigns a badge to a release.
+      tags:
+        - Badges
+      summary: Assign a badge
+      operationId: UpdateBadge
+      parameters:
+        - description: Bucket ID
+          name: bucketid
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/badgeAssign"
+        description: Badge
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/badge"
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/httperror"
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/httperror"
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/httperror"
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/httperror"
+      x-add-pipeline:
+        - ValidUser
+        - BucketUserRead
+      x-permission:
+        action: write
+        resource: Badge
+  "/api/v1/buckets/{bucketid}/badges/{badgename}/":
+    get:
+      security:
+        - ApiKeyAuth: []
+      description: Gets a badge by name.
+      tags:
+        - Badges
+      summary: Get badge
+      operationId: GetBadge
+      parameters:
+        - description: Bucket ID
+          name: bucketid
+          in: path
+          required: true
+          schema:
+            type: string
+        - description: Badge Name
+          name: badgename
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/badge"
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/httperror"
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/httperror"
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/httperror"
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/httperror"
+      x-add-pipeline:
+        - ValidUser
+        - BucketUserRead
+    delete:
+      security:
+        - ApiKeyAuth: []
+      description: Removes a badge by name.
+      tags:
+        - Badges
+      summary: Delete a badge
+      operationId: DeleteBadge
+      parameters:
+        - description: Bucket ID
+          name: bucketid
+          in: path
+          required: true
+          schema:
+            type: string
+        - description: Badge Name
+          name: badgename
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "204":
+          description: No Content
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/nocontent"
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/httperror"
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/httperror"
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/httperror"
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/httperror"
+      x-add-pipeline:
+        - ValidUser
+        - BucketUserRead
+      x-permission:
+        action: write
+        resource: Badge
+  "/api/v1/buckets/{bucketid}/diff/releases/":
+    get:
+      security:
+        - ApiKeyAuth: []
+      description: Gets the change count between two releases.
+      tags:
+        - Releases
+      summary: Get counts of changes between releases
+      operationId: GetReleaseDiff
+      parameters:
+        - description: Bucket ID
+          name: bucketid
+          in: path
+          required: true
+          schema:
+            type: string
+        - description: >
+            From Release ID, specify 'latest' to use the most recent release. Either fromreleaseid or fromreleasenum can be specified, but not both.
+
+          name: fromreleaseid
+          in: query
+          required: true
+          schema:
+            type: string
+        - description: >
+            From Release Number. To query against an empty bucket you may set fromreleasenum to zero. Either fromreleaseid or fromreleasenum can be specified, but not both.
+
+          name: fromreleasenum
+          in: query
+          required: true
+          schema:
+            type: integer
+        - description: >
+            To Release ID, when not specified the most recent state of the bucket will be used. Either toreleaseid or toreleasenum can be specified, but not both.
+
+          name: toreleaseid
+          in: query
+          schema:
+            type: string
+        - description: >
+            To Release ID, when not specified the most recent state of the bucket will be used. Either toreleaseid or toreleasenum can be specified, but not both.
+
+          name: toreleasenum
+          in: query
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/changecount"
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/httperror"
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/httperror"
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/httperror"
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/httperror"
+      x-add-pipeline:
+        - ValidUser
+        - BucketUserRead
+  "/api/v1/buckets/{bucketid}/diff/releases/entries/":
+    get:
+      security:
+        - ApiKeyAuth: []
+      description: Gets the list of changed entries between two releases.
+      tags:
+        - Releases
+      summary: Get changed entries between releases
+      operationId: GetReleaseDiffEntries
+      parameters:
+        - description: Bucket ID
+          name: bucketid
+          in: path
+          required: true
+          schema:
+            type: string
+        - description: >
+            From Release ID, specify 'latest' to use the most recent release. Either fromreleaseid or fromreleasenum can be specified, but not both.
+
+          name: fromreleaseid
+          in: query
+          required: false
+          schema:
+            type: string
+        - description: >
+            From Release Number. To query against an empty bucket you may set fromreleasenum to zero. Either fromreleaseid or fromreleasenum can be specified, but not both.
+
+          name: fromreleasenum
+          in: query
+          required: false
+          schema:
+            type: integer
+        - description: >
+            To Release ID, when not specified the most recent state of the bucket will be used. Either toreleaseid or toreleasenum can be specified, but not both.
+
+          name: toreleaseid
+          in: query
+          schema:
+            type: string
+        - description: >
+            To Release ID, when not specified the most recent state of the bucket will be used. Either toreleaseid or toreleasenum can be specified, but not both.
+
+          name: toreleasenum
+          in: query
+          schema:
+            type: integer
+        - description: Current Page
+          name: page
+          in: query
+          schema:
+            type: integer
+        - description: Items Per Page
+          name: per_page
+          in: query
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+            default: 10
+        - description: Path
+          name: path
+          in: query
+          schema:
+            type: string
+        - description: Include change states, one or more can be specified. The default is all states.
+          name: include_states
+          in: query
+          style: form
+          explode: false
+          schema:
+            type: array
+            items:
+              enum:
+                - Unchanged
+                - Add
+                - Delete
+                - Update
+              type: string
+      responses:
+        "200":
+          description: OK
+          headers:
+            Content-Range:
+              description: paging in the format - items [start]-[end]/[total]
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/releaseentry"
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/httperror"
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/httperror"
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/httperror"
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/httperror"
+      x-add-pipeline:
+        - ValidUser
+        - BucketUserRead
+  "/api/v1/buckets/{bucketid}/diff/unreleased/":
+    get:
+      security:
+        - ApiKeyAuth: []
+      description: Gets change count since the last release.
+      tags:
+        - Buckets
+      summary: Get counts of changes since last release
+      operationId: GetDiff
+      parameters:
+        - description: Bucket ID
+          name: bucketid
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/changecount"
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/httperror"
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/httperror"
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/httperror"
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/httperror"
+      x-add-pipeline:
+        - ValidUser
+        - BucketUserRead
+  "/api/v1/buckets/{bucketid}/diff/unreleased/entries/":
+    get:
+      security:
+        - ApiKeyAuth: []
+      description: Gets changed entries since the last release.
+      tags:
+        - Buckets
+      summary: Get changed entries since last releases
+      operationId: GetDiffEntries
+      parameters:
+        - description: Bucket ID
+          name: bucketid
+          in: path
+          required: true
+          schema:
+            type: string
+        - description: Current Page
+          name: page
+          in: query
+          schema:
+            type: integer
+        - description: Items Per Page
+          name: per_page
+          in: query
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+            default: 10
+        - description: Path
+          name: path
+          in: query
+          schema:
+            type: string
+        - description: Include change states, one or more can be specified. The default is all states.
+          name: include_states
+          in: query
+          style: form
+          explode: false
+          schema:
+            type: array
+            items:
+              enum:
+                - Unchanged
+                - Add
+                - Delete
+                - Update
+              type: string
+      responses:
+        "200":
+          description: OK
+          headers:
+            Content-Range:
+              description: paging in the format - items [start]-[end]/[total]
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/releaseentry"
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/httperror"
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/httperror"
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/httperror"
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/httperror"
+      x-add-pipeline:
+        - ValidUser
+        - BucketUserRead
+  "/api/v1/buckets/{bucketid}/entries/":
+    get:
+      security:
+        - ApiKeyAuth: []
+      description: Gets all entries for a given bucket. Entries can be searched/queried by path or label. For example, to search by path you can do "/api/v1/buckets/{bucketid}/entries/?path=asset.bundle" To search by label you can do "/api/v1/buckets/{bucketid}/entries/?label=android" To search by path and label both you can do "/api/v1/buckets/{bucketid}/entries/?path=asset.bundle&label=android". In this case the entires will need to match both filters.
+      tags:
+        - Entries
+      summary: Get entries for bucket
+      operationId: GetEntries
+      parameters:
+        - description: Bucket ID
+          name: bucketid
+          in: path
+          required: true
+          schema:
+            type: string
+        - description: Path
+          name: path
+          in: query
+          schema:
+            type: string
+        - description: Label
+          name: label
+          in: query
+          schema:
+            type: string
+        - description: Current Page
+          name: page
+          in: query
+          schema:
+            type: integer
+        - description: Items Per Page
+          name: per_page
+          in: query
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+            default: 10
+      responses:
+        "200":
+          description: OK [The "current_versionid" is the versionid for the most recent file entry. The "complete" flag represents that the content has been fully uploaded and that the file size and md5sum match to what was specified when the entry was created or updated.]
+          headers:
+            Content-Range:
+              description: paging in the format - items [start]-[end]/[total]
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/entry"
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/httperror"
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/httperror"
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/httperror"
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/httperror"
+      x-add-pipeline:
+        - ValidUser
+        - BucketUserRead
+    post:
+      security:
+        - ApiKeyAuth: []
+      description: Creates a new entry for a given bucket.
+      tags:
+        - Entries
+      summary: Create entry
+      operationId: CreateEntry
+      parameters:
+        - description: Bucket ID
+          name: bucketid
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/entryCreate"
+        description: Entry
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/entry"
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/httperror"
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/httperror"
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/httperror"
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/httperror"
+      x-add-pipeline:
+        - ValidUser
+        - BucketUserRead
+      x-permission:
+        action: write
+        resource: Bucket
+  "/api/v1/buckets/{bucketid}/entries/{entryid}/":
+    get:
+      security:
+        - ApiKeyAuth: []
+      description: Gets a single entry for a given bucket.
+      tags:
+        - Entries
+      summary: Get entry
+      operationId: GetEntry
+      parameters:
+        - description: Bucket ID
+          name: bucketid
+          in: path
+          required: true
+          schema:
+            type: string
+        - description: Entry ID
+          name: entryid
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/entry"
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/httperror"
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/httperror"
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/httperror"
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/httperror"
+      x-add-pipeline:
+        - ValidUser
+        - BucketUserRead
+        - EntryUserRead
+    put:
+      security:
+        - ApiKeyAuth: []
+      description: Updates a single entry for a given bucket.
+      tags:
+        - Entries
+      summary: Update entry
+      operationId: UpdateEntry
+      parameters:
+        - description: Bucket ID
+          name: bucketid
+          in: path
+          required: true
+          schema:
+            type: string
+        - description: Entry ID
+          name: entryid
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        $ref: "#/components/requestBodies/entryUpdate"
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/entry"
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/httperror"
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/httperror"
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/httperror"
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/httperror"
+      x-add-pipeline:
+        - ValidUser
+        - BucketUserRead
+        - EntryUserRead
+      x-permission:
+        action: write
+        resource: Bucket
+    delete:
+      security:
+        - ApiKeyAuth: []
+      description: Removes a single entry for a given bucket. When DELETE is called on an entry we just mark it as deleted but all previous versions of the file still exist. No file content is removed.
+      tags:
+        - Entries
+      summary: Delete entry
+      operationId: DeleteEntry
+      parameters:
+        - description: Bucket ID
+          name: bucketid
+          in: path
+          required: true
+          schema:
+            type: string
+        - description: Entry ID
+          name: entryid
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "204":
+          description: No Content
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/nocontent"
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/httperror"
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/httperror"
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/httperror"
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/httperror"
+      x-add-pipeline:
+        - ValidUser
+        - BucketUserRead
+        - EntryUserRead
+      x-permission:
+        action: write
+        resource: Bucket
+  "/api/v1/buckets/{bucketid}/entries/{entryid}/content/":
+    get:
+      security:
+        - ApiKeyAuth: []
+      description: Gets the content for a given entry.
+      tags:
+        - Content
+      summary: Get content by entryid
+      operationId: GetContent
+      parameters:
+        - description: Bucket ID
+          name: bucketid
+          in: path
+          required: true
+          schema:
+            type: string
+        - description: Entry ID
+          name: entryid
+          in: path
+          required: true
+          schema:
+            type: string
+        - description: Version ID
+          name: versionid
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/octet-stream:
+              schema:
+                type: string
+                format: binary
+        "206":
+          description: OK
+          content:
+            application/octet-stream:
+              schema:
+                type: string
+                format: binary
+        "307":
+          description: Temporary Redirect
+          content:
+            application/octet-stream:
+              schema:
+                $ref: "#/components/schemas/nocontent"
+        "400":
+          description: Bad Request
+          content:
+            application/octet-stream:
+              schema:
+                $ref: "#/components/schemas/httperror"
+        "404":
+          description: Not Found
+          content:
+            application/octet-stream:
+              schema:
+                $ref: "#/components/schemas/httperror"
+        "500":
+          description: Internal Server Error
+          content:
+            application/octet-stream:
+              schema:
+                $ref: "#/components/schemas/httperror"
+        default:
+          description: Error
+          content:
+            application/octet-stream:
+              schema:
+                $ref: "#/components/schemas/httperror"
+      x-add-pipeline:
+        - ValidUser
+        - BucketUserRead
+        - EntryUserRead
+    post:
+      security:
+        - ApiKeyAuth: []
+      description: Simply returns the content upload URL in the Location header for <a href="https://tus.io/" rel="noopener noreferrer" target="_blank">TUS</a> implementations. This endpoint is not required for most file uploads.
+      tags:
+        - Content
+      summary: Create content upload for TUS
+      operationId: CreateContent
+      parameters:
+        - description: Bucket ID
+          name: bucketid
+          in: path
+          required: true
+          schema:
+            type: string
+        - description: Entry ID
+          name: entryid
+          in: path
+          required: true
+          schema:
+            type: string
+        - description: Version ID
+          name: versionid
+          in: query
+          schema:
+            type: string
+      responses:
+        "201":
+          description: File was created, check the Location header.
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/httperror"
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/httperror"
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/httperror"
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/httperror"
+      x-add-pipeline:
+        - ValidUser
+        - BucketUserRead
+        - EntryUserRead
+      x-permission:
+        action: write
+        resource: Bucket
+    head:
+      security:
+        - ApiKeyAuth: []
+      description: Gets the status of uploaded content.
+      tags:
+        - Content
+      summary: Get content status by entryid
+      operationId: GetContentStatus
+      parameters:
+        - description: Bucket ID
+          name: bucketid
+          in: path
+          required: true
+          schema:
+            type: string
+        - description: Entry ID
+          name: entryid
+          in: path
+          required: true
+          schema:
+            type: string
+        - description: Version ID
+          name: versionid
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          headers:
+            Upload-Hash:
+              description: md5sum of expected upload
+              schema:
+                type: string
+            Upload-Length:
+              description: total expected size of upload
+              schema:
+                type: integer
+            Upload-Offset:
+              description: actual amount uploaded
+              schema:
+                type: integer
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/httperror"
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/httperror"
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/httperror"
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/httperror"
+      x-add-pipeline:
+        - ValidUser
+        - BucketUserRead
+        - EntryUserRead
+    patch:
+      security:
+        - ApiKeyAuth: []
+      description: Uploads or resumes uploading content for an entry. There are two content-types supported for uploading content for an entry. One is "multipart/form-data" and the other is "application/offset+octet-stream" which uses the tus protocol. We recommend using tus protocol with content-type "application/offset+octet-stream" as it supports resumable uploads. Please refer https://tus.io/ for more details.
+      tags:
+        - Content
+      summary: Upload content for entry
+      operationId: UploadContent
+      parameters:
+        - description: Bucket ID
+          name: bucketid
+          in: path
+          required: true
+          schema:
+            type: string
+        - description: Entry ID
+          name: entryid
+          in: path
+          required: true
+          schema:
+            type: string
+        - description: Version ID
+          name: versionid
+          in: query
+          schema:
+            type: string
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                file:
+                  description: File content
+                  type: string
+                  format: binary
+              required:
+                - file
+        required: true
+      responses:
+        "204":
+          description: To verify if the file was successfully uploaded, compare the upload hash and upload link headers and make sure they match to the uploaded content.
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/httperror"
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/httperror"
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/httperror"
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/httperror"
+      x-add-pipeline:
+        - ValidUser
+        - BucketUserRead
+        - EntryUserRead
+      x-permission:
+        action: write
+        resource: Bucket
+  "/api/v1/buckets/{bucketid}/entries/{entryid}/versions/":
+    get:
+      security:
+        - ApiKeyAuth: []
+      description: Gets all versions of an entry.
+      tags:
+        - Entries
+      summary: Get entry versions
+      operationId: GetEntryVersions
+      parameters:
+        - description: Bucket ID
+          name: bucketid
+          in: path
+          required: true
+          schema:
+            type: string
+        - description: Entry ID
+          name: entryid
+          in: path
+          required: true
+          schema:
+            type: string
+        - description: Label
+          name: label
+          in: query
+          schema:
+            type: string
+        - description: Current Page
+          name: page
+          in: query
+          schema:
+            type: integer
+        - description: Items Per Page
+          name: per_page
+          in: query
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+            default: 10
+      responses:
+        "200":
+          description: OK
+          headers:
+            Content-Range:
+              description: paging in the format - items [start]-[end]/[total]
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/version"
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/httperror"
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/httperror"
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/httperror"
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/httperror"
+      x-add-pipeline:
+        - ValidUser
+        - BucketUserRead
+        - EntryUserRead
+  "/api/v1/buckets/{bucketid}/entries/{entryid}/versions/{versionid}/":
+    get:
+      security:
+        - ApiKeyAuth: []
+      description: Gets a specific version of an entry.
+      tags:
+        - Entries
+      summary: Get entry version
+      operationId: GetEntryVersion
+      parameters:
+        - description: Bucket ID
+          name: bucketid
+          in: path
+          required: true
+          schema:
+            type: string
+        - description: Entry ID
+          name: entryid
+          in: path
+          required: true
+          schema:
+            type: string
+        - description: Version ID
+          name: versionid
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/entry"
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/httperror"
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/httperror"
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/httperror"
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/httperror"
+      x-add-pipeline:
+        - ValidUser
+        - BucketUserRead
+        - EntryUserRead
+  "/api/v1/buckets/{bucketid}/entries/{entryid}/versions/{versionid}/content/":
+    get:
+      security:
+        - ApiKeyAuth: []
+      description: Gets the content for a specific version of an entry.
+      tags:
+        - Content
+      summary: Get content for version of entry
+      operationId: GetContentVersion
+      parameters:
+        - description: Bucket ID
+          name: bucketid
+          in: path
+          required: true
+          schema:
+            type: string
+        - description: Entry ID
+          name: entryid
+          in: path
+          required: true
+          schema:
+            type: string
+        - description: Version ID
+          name: versionid
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/octet-stream:
+              schema:
+                type: string
+                format: binary
+        "206":
+          description: OK
+          content:
+            application/octet-stream:
+              schema:
+                type: string
+                format: binary
+        "307":
+          description: Temporary Redirect
+          content:
+            application/octet-stream:
+              schema:
+                $ref: "#/components/schemas/nocontent"
+        "400":
+          description: Bad Request
+          content:
+            application/octet-stream:
+              schema:
+                $ref: "#/components/schemas/httperror"
+        "404":
+          description: Not Found
+          content:
+            application/octet-stream:
+              schema:
+                $ref: "#/components/schemas/httperror"
+        "500":
+          description: Internal Server Error
+          content:
+            application/octet-stream:
+              schema:
+                $ref: "#/components/schemas/httperror"
+        default:
+          description: Error
+          content:
+            application/octet-stream:
+              schema:
+                $ref: "#/components/schemas/httperror"
+      x-add-pipeline:
+        - ValidUser
+        - BucketUserRead
+        - EntryUserRead
+    head:
+      security:
+        - ApiKeyAuth: []
+      description: Gets the status of uploaded content for a specific version of an entry.
+      tags:
+        - Content
+      summary: Get content status for version of entry
+      operationId: GetContentStatusVersion
+      parameters:
+        - description: Bucket ID
+          name: bucketid
+          in: path
+          required: true
+          schema:
+            type: string
+        - description: Entry ID
+          name: entryid
+          in: path
+          required: true
+          schema:
+            type: string
+        - description: Version ID
+          name: versionid
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          headers:
+            Upload-Hash:
+              description: md5sum of expected upload
+              schema:
+                type: string
+            Upload-Length:
+              description: total expected size of upload
+              schema:
+                type: integer
+            Upload-Offset:
+              description: actual amount uploaded
+              schema:
+                type: integer
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/httperror"
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/httperror"
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/httperror"
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/httperror"
+      x-add-pipeline:
+        - ValidUser
+        - BucketUserRead
+        - EntryUserRead
+  "/api/v1/buckets/{bucketid}/entry_by_path/":
+    get:
+      security:
+        - ApiKeyAuth: []
+      description: Gets a single entry by path for a given bucket.
+      tags:
+        - Entries
+      summary: Get entry by path
+      operationId: GetEntryByPath
+      parameters:
+        - description: Bucket ID
+          name: bucketid
+          in: path
+          required: true
+          schema:
+            type: string
+        - description: Path
+          name: path
+          in: query
+          required: true
+          schema:
+            type: string
+        - description: Version ID
+          name: versionid
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/entry"
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/httperror"
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/httperror"
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/httperror"
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/httperror"
+      x-add-pipeline:
+        - ValidUser
+        - BucketUserRead
+        - EntryUserRead
+    put:
+      security:
+        - ApiKeyAuth: []
+      description: Update the entry by path
+      tags:
+        - Entries
+      summary: Update entry by path
+      operationId: UpdateEntryByPath
+      parameters:
+        - description: Bucket ID
+          name: bucketid
+          in: path
+          required: true
+          schema:
+            type: string
+        - description: Path
+          name: path
+          in: query
+          required: true
+          schema:
+            type: string
+      requestBody:
+        $ref: "#/components/requestBodies/entryUpdate"
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/entry"
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/httperror"
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/httperror"
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/httperror"
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/httperror"
+      x-add-pipeline:
+        - ValidUser
+        - BucketUserRead
+        - EntryUserRead
+      x-permission:
+        action: write
+        resource: Bucket
+    post:
+      security:
+        - ApiKeyAuth: []
+      description: Creates a new entry for a given bucket; can update the entry if the path already exists.
+      tags:
+        - Entries
+      summary: Create or update entry by path
+      operationId: CreateOrUpdateEntryByPath
+      parameters:
+        - description: Bucket ID
+          name: bucketid
+          in: path
+          required: true
+          schema:
+            type: string
+        - description: Path
+          name: path
+          in: query
+          required: true
+          schema:
+            type: string
+        - description: Set to 'true' if you want to update the existing entries
+          name: updateIfExists
+          in: query
+          schema:
+            type: boolean
+            default: false
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/entryCreateByPath"
+        description: Entry
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/entry"
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/httperror"
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/httperror"
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/httperror"
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/httperror"
+      x-add-pipeline:
+        - ValidUser
+        - BucketUserRead
+        - EntryUserRead
+      x-permission:
+        action: write
+        resource: Bucket
+  "/api/v1/buckets/{bucketid}/permissions/":
+    get:
+      security:
+        - ApiKeyAuth: []
+      description: Gets all permissions for a bucket.
+      tags:
+        - Permissions
+      summary: Get permissions for bucket
+      operationId: GetAllByBucket
+      parameters:
+        - description: Bucket ID
+          name: bucketid
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/permission"
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/httperror"
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/httperror"
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/httperror"
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/httperror"
+      x-add-pipeline:
+        - ValidUser
+        - BucketUserRead
+    put:
+      security:
+        - ApiKeyAuth: []
+      description: Update a permission for a bucket.
+      tags:
+        - Permissions
+      summary: Update a permission
+      operationId: UpdatePermissionByBucket
+      parameters:
+        - description: Bucket ID
+          name: bucketid
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/permissionUpdate"
+        description: Permission
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/permission"
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/httperror"
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/httperror"
+        "409":
+          description: Already Exists
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/httperror"
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/httperror"
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/httperror"
+      x-add-pipeline:
+        - ValidUser
+        - BucketUserRead
+      x-permission:
+        action: write
+        resource: Permission
+    post:
+      security:
+        - ApiKeyAuth: []
+      description: Create a permission for a bucket.
+      tags:
+        - Permissions
+      summary: Create a permission
+      operationId: CreatePermissionByBucket
+      parameters:
+        - description: Bucket ID
+          name: bucketid
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/permissionCreate"
+        description: Permission
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/permission"
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/httperror"
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/httperror"
+        "409":
+          description: Already Exists
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/httperror"
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/httperror"
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/httperror"
+      x-add-pipeline:
+        - ValidUser
+        - BucketUserRead
+      x-permission:
+        action: write
+        resource: Permission
+    delete:
+      security:
+        - ApiKeyAuth: []
+      description: delete a permission for a bucket.
+      tags:
+        - Permissions
+      summary: delete a permission
+      operationId: DeletePermissionByBucket
+      parameters:
+        - description: Bucket ID
+          name: bucketid
+          in: path
+          required: true
+          schema:
+            type: string
+        - description: |
+            Permission of resource: allow, deny.
+          name: permission
+          in: query
+          schema:
+            type: string
+        - description: |
+            Permission action: write, read.
+          name: action
+          in: query
+          schema:
+            type: string
+      responses:
+        "204":
+          description: OK
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/httperror"
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/httperror"
+        "409":
+          description: Already Exists
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/httperror"
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/httperror"
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/httperror"
+      x-add-pipeline:
+        - ValidUser
+        - BucketUserRead
+      x-permission:
+        action: write
+        resource: Permission
+  "/api/v1/buckets/{bucketid}/promote/":
+    post:
+      security:
+        - ApiKeyAuth: []
+      description: Promotes a release from one bucket to another.
+      tags:
+        - Buckets
+      summary: Promote release between buckets
+      operationId: PromoteBucket
+      parameters:
+        - description: Bucket ID
+          name: bucketid
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/promotebucket"
+        description: PromoteBucket
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/release"
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/httperror"
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/httperror"
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/httperror"
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/httperror"
+      x-add-pipeline:
+        - ValidUser
+        - BucketUserRead
+      x-permission:
+        action: promote
+        resource: Bucket
+  "/api/v1/buckets/{bucketid}/promote/{promotionid}":
+    get:
+      security:
+        - ApiKeyAuth: []
+      description: Get information about the promotion job
+      tags:
+        - Buckets
+      summary: Get information about the promotion job
+      operationId: GetPromotion
+      parameters:
+        - description: Bucket ID
+          name: bucketid
+          in: path
+          required: true
+          schema:
+            type: string
+        - description: Promotion ID
+          name: promotionid
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/promotion"
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/httperror"
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/httperror"
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/httperror"
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/httperror"
+      x-add-pipeline:
+        - ValidUser
+        - BucketUserRead
+  "/api/v1/buckets/{bucketid}/promoteasync/":
+    post:
+      security:
+        - ApiKeyAuth: []
+      description: Promotes a release asynchronously from one bucket to another.
+      tags:
+        - Buckets
+      summary: Promote release asynchronously between buckets
+      operationId: PromoteBucketAsync
+      parameters:
+        - description: Bucket ID
+          name: bucketid
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/promotebucket"
+        description: PromoteBucketAsync
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/promoteBucketAPIResponse"
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/httperror"
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/httperror"
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/httperror"
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/httperror"
+      x-add-pipeline:
+        - ValidUser
+        - BucketUserRead
+      x-permission:
+        action: promote
+        resource: Bucket
+  "/api/v1/buckets/{bucketid}/release_by_badge/{badgename}/":
+    get:
+      security:
+        - ApiKeyAuth: []
+      description: Gets a badged release for a given bucket.
+      tags:
+        - Releases
+      summary: Get release by badge
+      operationId: GetReleaseByBadge
+      parameters:
+        - description: Bucket ID
+          name: bucketid
+          in: path
+          required: true
+          schema:
+            type: string
+        - description: Badge Name
+          name: badgename
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/release"
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/httperror"
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/httperror"
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/httperror"
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/httperror"
+      x-add-pipeline:
+        - ValidUser
+        - BucketUserRead
+  "/api/v1/buckets/{bucketid}/release_by_badge/{badgename}/entries/":
+    get:
+      security:
+        - ApiKeyAuth: []
+      description: Gets all entries for a badged release.
+      tags:
+        - Releases
+      summary: Get badged release entries
+      operationId: GetReleaseEntriesByBadge
+      parameters:
+        - description: Bucket ID
+          name: bucketid
+          in: path
+          required: true
+          schema:
+            type: string
+        - description: Badge Name
+          name: badgename
+          in: path
+          required: true
+          schema:
+            type: string
+        - description: Label
+          name: label
+          in: query
+          schema:
+            type: string
+        - description: Current Page
+          name: page
+          in: query
+          schema:
+            type: integer
+        - description: Items Per Page
+          name: per_page
+          in: query
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+            default: 10
+      responses:
+        "200":
+          description: OK
+          headers:
+            Content-Range:
+              description: paging in the format - items [start]-[end]/[total]
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/releaseentry"
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/httperror"
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/httperror"
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/httperror"
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/httperror"
+      x-add-pipeline:
+        - ValidUser
+        - BucketUserRead
+  "/api/v1/buckets/{bucketid}/releases/":
+    get:
+      security:
+        - ApiKeyAuth: []
+      description: Gets all releases for a given bucket.
+      tags:
+        - Releases
+      summary: Get releases for bucket
+      operationId: GetReleases
+      parameters:
+        - description: Bucket ID
+          name: bucketid
+          in: path
+          required: true
+          schema:
+            type: string
+        - description: Current Page
+          name: page
+          in: query
+          schema:
+            type: integer
+        - description: Items Per Page
+          name: per_page
+          in: query
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+            default: 10
+      responses:
+        "200":
+          description: OK
+          headers:
+            Content-Range:
+              description: paging in the format - items [start]-[end]/[total]
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/release"
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/httperror"
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/httperror"
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/httperror"
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/httperror"
+      x-add-pipeline:
+        - ValidUser
+        - BucketUserRead
+    post:
+      security:
+        - ApiKeyAuth: []
+      description: Creates a new release for a given bucket. If you don't specify the snapshot or entries fields all entries currently in the bucket will be added to the release. Otherwise you can use the snapshot field to create a release with all entries prior to a given date, or the entries field to provide a list of entryids and versionids to add.
+      tags:
+        - Releases
+      summary: Create release
+      operationId: CreateRelease
+      parameters:
+        - description: Bucket ID
+          name: bucketid
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/releaseCreate"
+        description: Release
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/release"
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/httperror"
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/httperror"
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/httperror"
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/httperror"
+      x-add-pipeline:
+        - ValidUser
+        - BucketUserRead
+      x-permission:
+        action: write
+        resource: Release
+  "/api/v1/buckets/{bucketid}/releases/{releaseid}/":
+    get:
+      security:
+        - ApiKeyAuth: []
+      description: Gets a single release for a given bucket.
+      tags:
+        - Releases
+      summary: Get release
+      operationId: GetRelease
+      parameters:
+        - description: Bucket ID
+          name: bucketid
+          in: path
+          required: true
+          schema:
+            type: string
+        - description: Release ID
+          name: releaseid
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/release"
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/httperror"
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/httperror"
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/httperror"
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/httperror"
+      x-add-pipeline:
+        - ValidUser
+        - BucketUserRead
+    put:
+      security:
+        - ApiKeyAuth: []
+      description: Update fields on a single release for a given bucket.
+      tags:
+        - Releases
+      summary: Update release
+      operationId: UpdateRelease
+      parameters:
+        - description: Bucket ID
+          name: bucketid
+          in: path
+          required: true
+          schema:
+            type: string
+        - description: Release ID
+          name: releaseid
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/releaseUpdate"
+        description: Release fields to update
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/release"
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/httperror"
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/httperror"
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/httperror"
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/httperror"
+      x-add-pipeline:
+        - ValidUser
+        - BucketUserRead
+      x-permission:
+        action: write
+        resource: Release
+  "/api/v1/buckets/{bucketid}/releases/{releaseid}/entries/":
+    get:
+      security:
+        - ApiKeyAuth: []
+      description: Gets all entries for a single release.
+      tags:
+        - Releases
+      summary: Get release entries
+      operationId: GetReleaseEntries
+      parameters:
+        - description: Bucket ID
+          name: bucketid
+          in: path
+          required: true
+          schema:
+            type: string
+        - description: Release ID
+          name: releaseid
+          in: path
+          required: true
+          schema:
+            type: string
+        - description: Label
+          name: label
+          in: query
+          schema:
+            type: string
+        - description: Current Page
+          name: page
+          in: query
+          schema:
+            type: integer
+        - description: Items Per Page
+          name: per_page
+          in: query
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+            default: 10
+      responses:
+        "200":
+          description: OK
+          headers:
+            Content-Range:
+              description: paging in the format - items [start]-[end]/[total]
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/releaseentry"
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/httperror"
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/httperror"
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/httperror"
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/httperror"
+      x-add-pipeline:
+        - ValidUser
+        - BucketUserRead
+  "/api/v1/buckets/{bucketid}/releases/{releaseid}/stats/":
+    get:
+      security:
+        - ApiKeyAuth: []
+      description: Get stats for a release for a given metric and time interval.
+      tags:
+        - Releases
+      summary: Get stats for a release
+      operationId: GetStats
+      parameters:
+        - description: Bucket ID
+          name: bucketid
+          in: path
+          required: true
+          schema:
+            type: string
+        - description: Release ID
+          name: releaseid
+          in: path
+          required: true
+          schema:
+            type: string
+        - description: Select the metric for which you want the stats.
+          name: metric
+          in: query
+          required: true
+          schema:
+            type: string
+            enum:
+              - downloads
+              - errors
+        - description: |
+            Select the time interval for which you want the stats.
+            day indicates last 24 hrs
+            week indicates last 7 days
+            month indicates last 30 days
+          name: interval
+          in: query
+          required: true
+          schema:
+            type: string
+            enum:
+              - day
+              - week
+              - month
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/metricQuantity"
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/httperror"
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/httperror"
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/httperror"
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/httperror"
+      x-add-pipeline:
+        - ValidUser
+        - BucketUserRead
+  "/api/v1/buckets/{bucketid}/releases/{releaseid}/stats/details/errors/":
+    get:
+      security:
+        - ApiKeyAuth: []
+      description: Get the given number of latest errors in a release with their status code, timestamp and URL in a csv format
+      tags:
+        - Releases
+      summary: Get detail error information
+      operationId: GetErrorDetails
+      parameters:
+        - description: Bucket ID
+          name: bucketid
+          in: path
+          required: true
+          schema:
+            type: string
+        - description: Release ID
+          name: releaseid
+          in: path
+          required: true
+          schema:
+            type: string
+        - description: Items Per Page
+          name: per_page
+          in: query
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+            default: 10
+        - description: |
+            Select the time interval for which you want the stats.
+            day indicates last 24 hrs
+            week indicates last 7 days
+            month indicates last 30 days
+          name: interval
+          in: query
+          required: true
+          schema:
+            type: string
+            enum:
+              - day
+              - week
+              - month
+      responses:
+        "200":
+          description: OK
+          headers:
+            Access-Control-Allow-Origin:
+              description: The literal value "*" can be specified, as a wildcard; the value tells browsers to allow requesting code from any origin to access the resource.
+              schema:
+                type: string
+            Content-Type:
+              description: Indicates the content type of the returned content
+              schema:
+                type: string
+          content:
+            text/csv:
+              schema:
+                type: string
+                format: byte
+                example: >-
+                  Response_Status_Code,Submit_Time,URL
+
+                  404,2021-07-27 04:29:59.830 UTC,https://example.com/api/v1/endpoint
+
+                  403,2021-07-26 02:13:59.830 UTC,https://example.com/api/v1/endpoint
+        "400":
+          description: Bad Request
+          content:
+            text/csv:
+              schema:
+                $ref: "#/components/schemas/httperror"
+        "404":
+          description: Not Found
+          content:
+            text/csv:
+              schema:
+                $ref: "#/components/schemas/httperror"
+        "500":
+          description: Internal Server Error
+          content:
+            text/csv:
+              schema:
+                $ref: "#/components/schemas/httperror"
+        default:
+          description: Error
+          content:
+            text/csv:
+              schema:
+                $ref: "#/components/schemas/httperror"
+      x-add-pipeline:
+        - ValidUser
+        - BucketUserRead
+  "/api/v1/orgs/{orgid}/":
+    get:
+      security:
+        - ApiKeyAuth: []
+      description: Gets organization details.
+      tags:
+        - Orgs
+      summary: Gets organization details.
+      operationId: GetOrg
+      parameters:
+        - description: Organization ID
+          name: orgid
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/org"
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/httperror"
+        "403":
+          description: Organization Activation Not Found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/httperror"
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/httperror"
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/httperror"
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/httperror"
+      x-add-pipeline:
+        - ValidUser
+        - OrgRead
+    put:
+      security:
+        - ApiKeyAuth: []
+      description: Updates the bucket details by ID.
+      tags:
+        - Orgs
+      summary: Update tos accepted on a organization
+      operationId: SaveTosAccepted
+      parameters:
+        - description: Organization ID
+          name: orgid
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/orgTosUpdate"
+        description: Org
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/org"
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/httperror"
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/httperror"
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/httperror"
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/httperror"
+      x-add-pipeline:
+        - ValidUser
+        - OrgRead
+  "/api/v1/orgs/{orgid}/usage/":
+    get:
+      security:
+        - ApiKeyAuth: []
+      description: Gets an organization usage details.
+      tags:
+        - Orgs
+      summary: Gets organization Usage Details.
+      operationId: GetOrgUsage
+      parameters:
+        - description: Organization ID
+          name: orgid
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/orgusage"
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/httperror"
+        "403":
+          description: Organization Activation Not Found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/httperror"
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/httperror"
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/httperror"
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/httperror"
+      x-add-pipeline:
+        - ValidUser
+        - OrgRead
+  "/api/v1/projects/{projectguid}/buckets/":
+    get:
+      security:
+        - ApiKeyAuth: []
+      description: Gets all buckets for a project.
+      tags:
+        - Buckets
+      summary: Get buckets for project
+      operationId: ListBucketsByProject
+      parameters:
+        - description: Project GUID
+          name: projectguid
+          in: path
+          required: true
+          schema:
+            type: string
+        - description: Current Page
+          name: page
+          in: query
+          schema:
+            type: integer
+        - description: Items Per Page
+          name: per_page
+          in: query
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+            default: 10
+      responses:
+        "200":
+          description: OK
+          headers:
+            Content-Range:
+              description: paging in the format - items [start]-[end]/[total]
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/bucket"
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/httperror"
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/httperror"
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/httperror"
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/httperror"
+      x-add-pipeline:
+        - ValidUser
+        - ProjectRead
+    post:
+      security:
+        - ApiKeyAuth: []
+      description: Create a bucket for a project.
+      tags:
+        - Buckets
+      summary: Create bucket
+      operationId: CreateBucketByProject
+      parameters:
+        - description: Project GUID
+          name: projectguid
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/bucketCreate"
+        description: Bucket
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/bucket"
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/httperror"
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/httperror"
+        "409":
+          description: Already Exists
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/httperror"
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/httperror"
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/httperror"
+      x-add-pipeline:
+        - ValidUser
+        - ProjectRead
+      x-permission:
+        action: write
+        resource: Project
+  /api/v1/users/me/:
+    get:
+      security:
+        - ApiKeyAuth: []
+      description: Gets the current user's information.
+      tags:
+        - Users
+      summary: Get user info
+      operationId: GetUserInfo
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/user"
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/httperror"
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/httperror"
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/httperror"
+      x-add-pipeline:
+        - ValidUser
+  /api/v1/users/me/apikey/:
+    get:
+      security:
+        - ApiKeyAuth: []
+      description: Gets the current user's API key.
+      tags:
+        - Users
+      summary: Get user API key
+      operationId: GetUserApiKey
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/userapikey"
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/httperror"
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/httperror"
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/httperror"
+      x-add-pipeline:
+        - ValidUser
+    post:
+      security:
+        - ApiKeyAuth: []
+      description: Re-generate the current user's API key.
+      tags:
+        - Users
+      summary: Re-generate user API key
+      operationId: RegenerateUserApiKey
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/userapikey"
+        description: ApiKey
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/userapikey"
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/httperror"
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/httperror"
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/httperror"
+      x-add-pipeline:
+        - ValidUser
+tags:
+  - description: An organization is the billing entity for a collection of projects and their buckets.
+    name: Orgs
+  - description: A bucket is a single context for publishing content, which might include things like platform and environment (for example, “ios_staging” or “ios_production”).
+    name: Buckets
+  - description: Bucket access token is the concept for private bucket only. A token is needed when accessing contents in a private bucket via Client API.
+    name: BucketAccessTokens
+  - description: An entry is a single piece of content within a bucket. Entries are versioned and support adding associated labels / metadata.
+    name: Entries
+  - description: Content endpoints are used to push the actual file data for a specific entry.
+    name: Content
+  - description: Releases are a snapshot of the entries contained within a bucket at a single point in time.
+    name: Releases
+  - description: Information relating to the current user.
+    name: Users
+  - description: Badges allow a unique label to be assigned to a single release.
+    name: Badges
+servers:
+  - url: https://content-api.cloud.unity3d.com/api/v1
+components:
+  requestBodies:
+    entryUpdate:
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/entryUpdate"
+      description: Entry
+      required: true
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      name: Authorization
+      in: header
+  schemas:
+    badge:
+      type: object
+      properties:
+        created:
+          type: string
+          format: date-time
+          x-isnullable: true
+        created_by:
+          type: string
+          x-isnullable: true
+        created_by_name:
+          type: string
+          x-isnullable: true
+        name:
+          type: string
+          maxLength: 50
+          minLength: 1
+          pattern: ^[0-9a-zA-Z-_]+$
+          x-isnullable: true
+          example: QATesting
+        releaseid:
+          type: string
+          format: uuid
+          x-isnullable: true
+          example: 123e4567-e89b-12d3-a456-426655440000
+        releasenum:
+          type: integer
+    badgeAssign:
+      type: object
+      required:
+        - name
+      properties:
+        name:
+          type: string
+          maxLength: 50
+          minLength: 1
+          pattern: ^[0-9a-zA-Z-_]+$
+          x-isnullable: true
+          example: QATesting
+        releaseid:
+          type: string
+          format: uuid
+          example: 123e4567-e89b-12d3-a456-426655440000
+        releasenum:
+          type: integer
+          x-isnullable: false
+          example: 2
+    bucket:
+      type: object
+      properties:
+        attributes:
+          $ref: "#/components/schemas/bucketAttributes"
+        changes:
+          $ref: "#/components/schemas/changecount"
+        created:
+          type: string
+          format: date-time
+          x-isnullable: true
+        description:
+          type: string
+          x-isnullable: true
+          example: Something that describes this bucket
+        id:
+          type: string
+          format: uuid
+          example: b9a0657d-b223-4507-9206-ead33ac06c6d
+        last_release:
+          $ref: "#/components/schemas/release"
+        name:
+          type: string
+          maxLength: 50
+          x-isnullable: true
+          example: android_staging
+        permissions:
+          $ref: "#/components/schemas/bucketPermissions"
+        private:
+          type: boolean
+          x-isnullable: false
+          x-omitempty: false
+          example: true
+        projectguid:
+          type: string
+          format: uuid
+          example: 123e4567-e89b-12d3-a456-426655440000
+    bucketAttributes:
+      type: object
+      properties:
+        promote_only:
+          type: boolean
+          x-isnullable: true
+          example: true
+    bucketCreate:
+      type: object
+      required:
+        - name
+        - projectguid
+      properties:
+        description:
+          type: string
+          x-isnullable: true
+          example: Something that describes this bucket
+        name:
+          type: string
+          maxLength: 50
+          minLength: 1
+          pattern: ^\S.*$
+          x-isnullable: true
+          example: android_staging
+        private:
+          type: boolean
+          default: false
+          x-isnullable: false
+          x-omitempty: false
+          example: true
+        projectguid:
+          type: string
+          format: uuid
+          example: 123e4567-e89b-12d3-a456-426655440000
+    bucketPermissions:
+      type: object
+      properties:
+        bucket_promote:
+          type: boolean
+          x-isnullable: true
+          example: false
+        bucket_read:
+          type: boolean
+          x-isnullable: true
+          example: true
+        bucket_release:
+          type: boolean
+          x-isnullable: true
+          example: false
+        bucket_write:
+          type: boolean
+          x-isnullable: true
+          example: false
+    bucketUpdate:
+      type: object
+      properties:
+        description:
+          type: string
+          x-isnullable: true
+          example: Something that describes this bucket
+        name:
+          type: string
+          maxLength: 50
+          minLength: 1
+          pattern: ^\S.*$
+          x-isnullable: true
+          example: android_staging
+    bucketaccesstoken:
+      type: object
+      properties:
+        created:
+          type: string
+          format: date-time
+          x-isnullable: true
+        description:
+          type: string
+          x-isnullable: true
+        id:
+          type: string
+          format: uuid
+          example: b9a0657d-b223-4507-9206-ead33ac06c6d
+        token:
+          type: string
+          x-isnullable: true
+    bucketaccesstokenCreate:
+      type: object
+      properties:
+        description:
+          type: string
+          maxLength: 50
+          minLength: 1
+          x-isnullable: true
+          example: Shared with internal devs
+    bucketaccesstokenUpdate:
+      type: object
+      properties:
+        description:
+          type: string
+          maxLength: 50
+          minLength: 1
+          x-isnullable: true
+          example: Shared with internal devs
+    changecount:
+      type: object
+      properties:
+        add:
+          type: integer
+          minimum: 0
+          x-isnullable: false
+          x-omitempty: false
+          example: 3
+        delete:
+          type: integer
+          minimum: 0
+          x-isnullable: false
+          x-omitempty: false
+          example: 1
+        last_modified:
+          type: string
+          format: date-time
+          x-isnullable: true
+        last_modified_by:
+          type: string
+          x-isnullable: true
+        last_modified_by_name:
+          type: string
+          x-isnullable: true
+        loading:
+          type: boolean
+          x-omitempty: false
+        unchanged:
+          type: integer
+          minimum: 0
+          x-isnullable: false
+          x-omitempty: false
+          example: 3
+        update:
+          type: integer
+          minimum: 0
+          x-isnullable: false
+          x-omitempty: false
+          example: 5
+    entry:
+      type: object
+      properties:
+        complete:
+          type: boolean
+          x-omitempty: false
+        content_hash:
+          description: The "content_hash" should be MD5sum hash value.
+          type: string
+          pattern: ^[a-fA-F0-9]+$
+          x-isnullable: true
+          example: c76580fa26181bfa8d8952826bd334d5
+        content_link:
+          type: string
+        content_size:
+          type: integer
+          minimum: 0
+          x-isnullable: true
+          example: 1234567
+        content_type:
+          type: string
+          x-isnullable: true
+          example: image/jpeg
+        current_versionid:
+          type: string
+          format: uuid
+          example: b9a0657d-b223-4507-9206-ead33ac06c6d
+        entryid:
+          type: string
+          format: uuid
+          example: b9a0657d-b223-4507-9206-ead33ac06c6d
+        labels:
+          type: array
+          items:
+            type: string
+            maxLength: 250
+            x-isnullable: true
+        last_modified:
+          type: string
+          format: date-time
+          x-isnullable: true
+        last_modified_by:
+          type: string
+          x-isnullable: true
+        last_modified_by_name:
+          type: string
+          x-isnullable: true
+        link:
+          type: string
+        metadata:
+          type: object
+          x-isnullable: true
+        path:
+          type: string
+          maxLength: 65535
+          pattern: ^\S.*$
+          x-isnullable: true
+          example: ios/character1.bundle
+        updated_at:
+          type: string
+          format: date-time
+          x-isnullable: true
+    entryCreate:
+      type: object
+      required:
+        - path
+        - content_hash
+        - content_size
+      properties:
+        content_hash:
+          description: The "content_hash" should be MD5sum hash value.
+          type: string
+          pattern: ^[a-fA-F0-9]+$
+          x-isnullable: true
+          example: c76580fa26181bfa8d8952826bd334d5
+        content_size:
+          type: integer
+          minimum: 0
+          x-isnullable: true
+          example: 1234567
+        content_type:
+          type: string
+          x-isnullable: true
+          example: image/jpeg
+        labels:
+          type: array
+          items:
+            type: string
+            maxLength: 250
+            x-isnullable: true
+        metadata:
+          type: object
+          x-isnullable: true
+        path:
+          type: string
+          maxLength: 65535
+          pattern: ^\S.*$
+          x-isnullable: true
+          example: ios/character1.bundle
+    entryCreateByPath:
+      type: object
+      required:
+        - content_hash
+        - content_size
+      properties:
+        content_hash:
+          description: The "content_hash" should be MD5sum hash value.
+          type: string
+          pattern: ^[a-fA-F0-9]+$
+          x-isnullable: true
+          example: c76580fa26181bfa8d8952826bd334d5
+        content_size:
+          type: integer
+          minimum: 0
+          x-isnullable: true
+          example: 1234567
+        content_type:
+          type: string
+          x-isnullable: true
+          example: image/jpeg
+        labels:
+          type: array
+          items:
+            type: string
+            maxLength: 250
+            x-isnullable: true
+        metadata:
+          type: object
+          x-isnullable: true
+    entryUpdate:
+      type: object
+      properties:
+        content_hash:
+          description: The "content_hash" should be MD5sum hash value.
+          type: string
+          pattern: ^[a-fA-F0-9]+$
+          x-isnullable: true
+          example: c76580fa26181bfa8d8952826bd334d5
+        content_size:
+          type: integer
+          minimum: 0
+          x-isnullable: true
+          example: 1234567
+        content_type:
+          type: string
+          x-isnullable: true
+          example: image/jpeg
+        labels:
+          type: array
+          items:
+            type: string
+            maxLength: 250
+            x-isnullable: true
+        metadata:
+          type: object
+          x-isnullable: true
+    errorCodes:
+      description: >-
+        0 - OK
+
+        1 - Invalid argument
+
+        2 - Out of range
+
+        3 - Unauthenticated
+
+        4 - Permission denied
+
+        5 - Not found
+
+        6 - Already exists
+
+        7 - Unknown error
+
+        8 - Internal error
+
+        9 - Invalid operation
+
+        10 - Organization Activation is needed
+
+        11 - You have an entry specified, but the matching file has not been uploaded, or the file size, or md5 hash of what was uploaded does not match
+
+        12 - too many requests
+      type: integer
+      format: int32
+      enum:
+        - 0
+        - 1
+        - 2
+        - 3
+        - 4
+        - 5
+        - 6
+        - 7
+        - 8
+        - 9
+        - 10
+        - 11
+        - 12
+      x-go-const-names:
+        - OK
+        - Invalid argument
+        - Out of range
+        - Unauthenticated
+        - Permission denied
+        - Not found
+        - Already exists
+        - Unknown error
+        - Internal error
+        - Invalid operation
+        - Organization Activation is needed
+        - You have an entry specified, but the matching file has not been uploaded, or the file size, or md5 hash of what was uploaded does not match
+        - too many requests
+    httperror:
+      type: object
+      properties:
+        code:
+          $ref: "#/components/schemas/errorCodes"
+        details:
+          type: array
+          items:
+            type: string
+          x-isnullable: true
+        reason:
+          type: string
+          example: not found
+    metricQuantity:
+      type: object
+      properties:
+        quantity:
+          type: integer
+          minimum: 0
+          x-isnullable: false
+          x-omitempty: false
+          example: 142312
+    nocontent:
+      type: object
+    org:
+      type: object
+      properties:
+        id:
+          type: string
+          example: an-organization
+        name:
+          type: string
+          example: An Organization
+        orgid:
+          type: string
+          example: 12345678
+        tos_accepted:
+          type: boolean
+          x-omitempty: false
+          example: true
+    orgTosUpdate:
+      type: object
+      properties:
+        tos_version:
+          type: integer
+          x-omitempty: false
+          example: 1
+    orgusage:
+      type: object
+      properties:
+        id:
+          type: string
+          x-isnullable: false
+          example: an-organization
+        start_time:
+          type: string
+          format: date-time
+          x-isnullable: true
+        usage:
+          type: array
+          items:
+            $ref: "#/components/schemas/usage"
+    permission:
+      type: object
+      properties:
+        action:
+          type: string
+          x-isnullable: true
+          example: write
+        permission:
+          type: string
+          x-isnullable: true
+          example: allow
+        resource:
+          type: string
+          x-isnullable: true
+          example: bucket/0000-0000-0000-0000
+    permissionCreate:
+      type: object
+      required:
+        - action
+        - permission
+      properties:
+        action:
+          type: string
+          enum:
+            - write
+          example: write
+        permission:
+          type: string
+          enum:
+            - allow
+            - deny
+          example: allow
+    permissionUpdate:
+      type: object
+      required:
+        - action
+        - permission
+      properties:
+        action:
+          type: string
+          enum:
+            - write
+          example: write
+        permission:
+          type: string
+          enum:
+            - allow
+            - deny
+          example: allow
+    promoteBucketAPIResponse:
+      type: object
+      properties:
+        promotion_id:
+          type: string
+          format: uuid
+          x-isnullable: false
+          x-omitempty: false
+          example: b9a0657d-b223-4507-9206-ead33ac06c6d
+    promotebucket:
+      type: object
+      required:
+        - from_release
+        - to_bucket
+      properties:
+        from_release:
+          type: string
+          format: uuid
+          example: b9a0657d-b223-4507-9206-ead33ac06c6d
+        notes:
+          description: If unset, the release notes of the "from release" will be used.
+          type: string
+          x-isnullable: true
+        to_bucket:
+          type: string
+          format: uuid
+          example: b9a0657d-b223-4507-9206-ead33ac06c6d
+    promotion:
+      type: object
+      properties:
+        error:
+          type: string
+          x-isnullable: true
+          x-omitempty: true
+        from_bucket_id:
+          type: string
+          format: uuid
+          x-isnullable: false
+          x-omitempty: false
+          example: a9b0657d-b223-4075-9206-ead33ac06d6c
+        from_bucket_name:
+          type: string
+          x-isnullable: false
+          x-omitempty: false
+        from_release_id:
+          type: string
+          format: uuid
+          x-isnullable: false
+          x-omitempty: false
+          example: b9a0657d-b223-4507-9206-ead33ac06c6d
+        promotion_id:
+          type: string
+          format: uuid
+          x-isnullable: false
+          x-omitempty: false
+          example: b9a0657d-b223-4507-9206-ead33ac06c6d
+        promotion_status:
+          type: string
+          enum:
+            - NotFound
+            - Complete
+            - InProgress
+            - Failed
+          x-isnullable: true
+          x-omitempty: false
+          example: Complete
+        to_bucket_id:
+          type: string
+          format: uuid
+          x-isnullable: false
+          x-omitempty: false
+          example: d950657d-2b23-4907-9206-ead33ac17d7a
+        to_bucket_name:
+          type: string
+          x-isnullable: false
+          x-omitempty: false
+        to_release_id:
+          type: string
+          format: uuid
+          x-isnullable: true
+          x-omitempty: false
+          example: 609a57d-b223-4507-9206-ca36ead03c6d
+    release:
+      type: object
+      properties:
+        badges:
+          type: array
+          items:
+            $ref: "#/components/schemas/badge"
+          x-isnullable: true
+        changes:
+          $ref: "#/components/schemas/changecount"
+        content_hash:
+          type: string
+          x-isnullable: true
+          example: c76580fa26181bfa8d8952826bd334d5
+        content_size:
+          type: integer
+          x-isnullable: true
+          example: 1234567
+        created:
+          type: string
+          format: date-time
+          x-isnullable: true
+        created_by:
+          type: string
+          x-isnullable: true
+        created_by_name:
+          type: string
+          x-isnullable: true
+        entries_link:
+          type: string
+        metadata:
+          type: object
+          x-isnullable: true
+        notes:
+          type: string
+          x-isnullable: true
+        promoted_from_bucket:
+          type: string
+          format: uuid
+          x-isnullable: true
+        promoted_from_release:
+          type: string
+          format: uuid
+          x-isnullable: true
+        releaseid:
+          type: string
+          format: uuid
+          example: b9a0657d-b223-4507-9206-ead33ac06c6d
+        releasenum:
+          type: integer
+    releaseCreate:
+      type: object
+      properties:
+        entries:
+          type: array
+          items:
+            $ref: "#/components/schemas/releaseentryCreate"
+          x-isnullable: true
+        metadata:
+          type: object
+          x-isnullable: true
+        notes:
+          type: string
+          x-isnullable: true
+        snapshot:
+          type: string
+          format: date-time
+          x-isnullable: true
+          example: 2017-07-21T17:32:28Z
+    releaseUpdate:
+      type: object
+      properties:
+        notes:
+          type: string
+          x-isnullable: true
+    releaseentry:
+      type: object
+      properties:
+        change_state:
+          type: string
+          enum:
+            - Unchanged
+            - Add
+            - Delete
+            - Update
+          x-isnullable: true
+        complete:
+          type: boolean
+          x-omitempty: false
+        content_hash:
+          type: string
+          pattern: ^[a-fA-F0-9]+$
+          x-isnullable: true
+          example: c76580fa26181bfa8d8952826bd334d5
+        content_link:
+          type: string
+        content_size:
+          type: integer
+          x-isnullable: true
+        content_type:
+          type: string
+          x-isnullable: true
+          example: image/jpeg
+        entryid:
+          type: string
+          format: uuid
+          example: b9a0657d-b223-4507-9206-ead33ac06c6d
+        labels:
+          type: array
+          items:
+            type: string
+            x-isnullable: true
+        last_modified:
+          type: string
+          format: date-time
+          x-isnullable: true
+        last_modified_by:
+          type: string
+          x-isnullable: true
+        last_modified_by_name:
+          type: string
+          x-isnullable: true
+        link:
+          type: string
+        metadata:
+          type: object
+          x-isnullable: true
+        path:
+          type: string
+          pattern: ^\S.*$
+          x-isnullable: true
+          example: ios/character1.bundle
+        updated_at:
+          type: string
+          format: date-time
+          x-isnullable: true
+        versionid:
+          type: string
+          format: uuid
+          example: b9a0657d-b223-4507-9206-ead33ac06c6d
+    releaseentryCreate:
+      type: object
+      required:
+        - versionid
+        - entryid
+      properties:
+        entryid:
+          type: string
+          format: uuid
+          example: b9a0657d-b223-4507-9206-ead33ac06c6d
+        versionid:
+          type: string
+          format: uuid
+          example: b9a0657d-b223-4507-9206-ead33ac06c6d
+    usage:
+      type: object
+      properties:
+        projectguid:
+          type: string
+          format: uuid
+        quantity:
+          type: number
+          minimum: 0
+          x-isnullable: false
+          example: 50.45434434
+    user:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+    userapikey:
+      type: object
+      required:
+        - apikey
+      properties:
+        apikey:
+          type: string
+          x-isnullable: false
+    version:
+      type: object
+      properties:
+        content_hash:
+          type: string
+          x-isnullable: true
+          example: c76580fa26181bfa8d8952826bd334d5
+        content_link:
+          type: string
+        content_size:
+          type: integer
+          x-isnullable: true
+          example: 1234567
+        content_type:
+          type: string
+          x-isnullable: true
+          example: image/jpeg
+        labels:
+          type: array
+          items:
+            type: string
+            x-isnullable: true
+          x-isnullable: true
+        last_modified:
+          type: string
+          format: date-time
+          x-isnullable: true
+        link:
+          type: string
+        metadata:
+          type: object
+          x-isnullable: true
+        path:
+          type: string
+          x-isnullable: true
+          example: ios/character1.bundle
+        versionid:
+          type: string
+          format: uuid
+          example: b9a0657d-b223-4507-9206-ead33ac06c6d

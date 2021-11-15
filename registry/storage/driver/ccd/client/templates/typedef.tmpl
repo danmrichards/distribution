@@ -1,0 +1,15 @@
+{{range .Types}}
+{{if ne .TypeName .Schema.TypeDecl }}
+// {{.TypeName}} defines the model for {{.JsonName}}.
+type {{.TypeName}} {{if and (opts.AliasTypes) (.CanAlias)}}={{end}} {{.Schema.TypeDecl}}
+{{end}}
+{{- if gt (len .Schema.EnumValues) 0 }}
+// List of {{ .TypeName }}
+const (
+	{{- $typeName := .TypeName }}
+    {{- range $key, $value := .Schema.EnumValues }}
+    {{ $typeName }}_{{ $key }} {{ $typeName }} = "{{ $value }}"
+    {{- end }}
+)
+{{- end }}
+{{end}}

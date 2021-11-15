@@ -1,0 +1,77 @@
+// Base64 encoded, gzipped, json marshaled Swagger object
+var swaggerSpec = []string{
+{{range .}}
+    "{{.}}",{{end}}
+}
+
+// GetSwagger returns the Swagger specification corresponding to the generated code
+// in this file.
+func GetSwagger() (*openapi3.Swagger, error) {
+    zipped, err := base64.StdEncoding.DecodeString(strings.Join(swaggerSpec, ""))
+    if err != nil {
+        return nil, fmt.Errorf("error base64 decoding spec: %s", err)
+    }
+    zr, err := gzip.NewReader(bytes.NewReader(zipped))
+    if err != nil {
+        return nil, fmt.Errorf("error decompressing spec: %s", err)
+    }
+    var buf bytes.Buffer
+    _, err = buf.ReadFrom(zr)
+    if err != nil {
+        return nil, fmt.Errorf("error decompressing spec: %s", err)
+    }
+
+    swagger, err := openapi3.NewSwaggerLoader().LoadSwaggerFromData(buf.Bytes())
+    if err != nil {
+        return nil, fmt.Errorf("error loading Swagger: %s", err)
+    }
+    return swagger, nil
+}
+
+// MustValidateRequestsMiddleware returns an OpenAPI request validating middleware, or panics.
+func MustValidateRequestsMiddleware() mux.MiddlewareFunc {
+	mw, err := ValidateAPIRequestsMiddleware()
+	if err != nil {
+		panic(err)
+    }
+    return mw
+}
+
+// ValidateRequestsMiddleware returns an OpenAPI request validating middleware, or an error.
+func ValidateAPIRequestsMiddleware() (mux.MiddlewareFunc, error) {
+    swag, err := GetSwagger()
+    if err != nil {
+        return nil, err
+    }
+
+    m, err := middleware.NewSwaggerValidationMiddleware(swag)
+    if err != nil {
+        return nil, err
+    }
+
+    return m.Middleware, nil
+}
+
+// MustValidateRequestsMiddlewareWithErrEnc returns an OpenAPI request validating middleware, or panics.
+func MustValidateRequestsMiddlewareWithErrEnc(errenc openapi3filter.ErrorEncoder) mux.MiddlewareFunc {
+	mw, err := ValidateAPIRequestsMiddlewareWithErrEnc(errenc)
+	if err != nil {
+		panic(err)
+	}
+    return mw
+}
+
+// ValidateRequestsMiddlewareWithErrEnc returns an OpenAPI request validating middleware, or an error.
+func ValidateAPIRequestsMiddlewareWithErrEnc(errenc openapi3filter.ErrorEncoder) (mux.MiddlewareFunc, error) {
+    swag, err := GetSwagger()
+    if err != nil {
+        return nil, err
+    }
+
+    m, err := middleware.NewSwaggerValidationMiddlewareWithErrEnc(swag, errenc)
+    if err != nil {
+        return nil, err
+    }
+
+    return m.Middleware, nil
+}

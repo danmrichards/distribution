@@ -1,0 +1,10 @@
+{{- if gt (len .SecuritySchemeProviderNames) 0 }}
+
+type scopeKey string
+
+const (
+{{range $ProviderName := .SecuritySchemeProviderNames}}
+    {{- $ProviderName | ucFirst}}Scopes scopeKey = "{{$ProviderName}}.Scopes"
+{{end}}
+)
+{{end}}

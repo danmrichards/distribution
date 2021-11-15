@@ -1,0 +1,8 @@
+// ServerInterface represents all server handlers.
+type ServerInterface interface {
+{{range .}}{{$opid := .OperationId}}
+// {{$opid}} ({{.Method}} {{.Path}})
+{{.SummaryAsComment }}
+{{$opid}}(ctx context.Context{{genParamArgs .PathParams}}{{if .RequiresParamObject}}, params {{$opid}}Params{{end}}{{range $i, $b := .Bodies}}, body{{$i}} {{$opid}}JSONBody{{end}}) (interface{}, int, error)
+{{end}}
+}
